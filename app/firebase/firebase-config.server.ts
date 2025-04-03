@@ -1,10 +1,15 @@
 import admin from 'firebase-admin';
 
-import serviceAccount from '../firebase/service-account.json';
+import { appConfig } from '../lib/config';
+
+const serviceAccount = appConfig.firebase.serviceAccount;
+if (!serviceAccount) {
+  throw new Error('Firebase service account not found');
+}
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+    credential: admin.credential.cert(serviceAccount),
   });
 }
 

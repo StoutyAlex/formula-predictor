@@ -7,4 +7,6 @@
 
 .env
 
-/app/firebase/service-account.json
+service-account.json
+
+app.config.*.json
