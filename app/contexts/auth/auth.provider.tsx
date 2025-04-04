@@ -1,42 +1,48 @@
 import { useEffect, useState } from 'react';
-import { onAuthStateChanged, type User } from 'firebase/auth';
 import type { AuthUser } from '~/types/auth-user';
-import { fbAuth } from '~/firebase/firebase-config';
 import { AuthContext } from './auth.context';
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [initialized, setInitialized] = useState(false);
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(fbAuth, async (user: User | null) => {
-      if (!user) {
-        setInitialized(true);
-        setUser(null);
-        return;
-      }
+  const authedUser: AuthUser = {
+    uid: 'uid-1',
+    displayName: 'User',
+    email: 'alexs@test.com',
+    photoURL: 'https://example.com/photo.jpg',
+  };
 
-      // Fetch user claims
-      const { claims } = await user.getIdTokenResult();
+  const [initialized, setInitialized] = useState(true);
+  const [user, setUser] = useState<AuthUser | null>(authedUser);
+  const [isAdmin, setIsAdmin] = useState(true);
 
-      const userClaims = {
-        isAdmin: claims.admin === true,
-      };
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(fbAuth, async (user: User | null) => {
+  //     if (!user) {
+  //       setInitialized(true);
+  //       setUser(null);
+  //       return;
+  //     }
 
-      const authedUser: AuthUser = {
-        uid: user.uid,
-        displayName: user.displayName || 'User',
-        email: user.email || '',
-        photoURL: user.photoURL || '',
-      };
+  //     // Fetch user claims
+  //     const { claims } = await user.getIdTokenResult();
 
-      setIsAdmin(userClaims.isAdmin);
-      setUser(authedUser);
-      setInitialized(true);
-    });
-    return () => unsubscribe();
-  }, []);
+  //     const userClaims = {
+  //       isAdmin: claims.admin === true,
+  //     };
+
+  //     const authedUser: AuthUser = {
+  //       uid: user.uid,
+  //       displayName: user.displayName || 'User',
+  //       email: user.email || '',
+  //       photoURL: user.photoURL || '',
+  //     };
+
+  //     setIsAdmin(userClaims.isAdmin);
+  //     setUser(authedUser);
+  //     setInitialized(true);
+  //   });
+  //   return () => unsubscribe();
+  // }, []);
 
   return <AuthContext.Provider value={{ user, setUser, isAdmin, initialized }}>{children}</AuthContext.Provider>;
 }

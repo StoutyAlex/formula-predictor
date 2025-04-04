@@ -5,7 +5,7 @@ import { SessionService } from '~/services/session.service.server';
 
 export const loader = async (params: LoaderFunctionArgs) => {
   const isSessionValid = await SessionService.isValid(params.request);
-  if (isSessionValid.success) return;
+  // if (isSessionValid.success) return;
   return redirect('/login');
 };
 

@@ -1,19 +1,10 @@
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithEmailLink,
-  sendSignInLinkToEmail,
-} from 'firebase/auth';
+
 import { useCallback, useState, type EventHandler, type FormEvent, type FormEventHandler, type SyntheticEvent } from 'react';
 import { FaEnvelope, FaFlagCheckered, FaGoogle, FaLock, FaUser } from 'react-icons/fa';
 import type { LoaderFunctionArgs } from 'react-router';
 import type { ActionFunctionArgs } from 'react-router';
 import { redirect, useFetcher } from 'react-router';
 import { Button } from '~/components/button.component';
-import { fbAuth } from '~/firebase/firebase-config';
 import { SessionService } from '~/services/session.service.server';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -34,9 +25,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await SessionService.isValid(request);
-  if (session.success) {
-    return redirect('/home');
-  }
+  // if (session.success) {
+  //   return redirect('/home');
+  // }
 };
 
 const url = 'https://storage.googleapis.com/uxpilot-auth.appspot.com/2509bb5eca-f792921744e1e3e79484.png';
@@ -45,12 +36,12 @@ export default function LoginPage() {
   const fetcher = useFetcher();
 
   const signInWithGoogle = async () => {
-    await signOut(fbAuth);
-    const provider = new GoogleAuthProvider();
-    const response = await signInWithPopup(fbAuth, provider);
+    // await signOut(fbAuth);
+    // const provider = new GoogleAuthProvider();
+    // const response = await signInWithPopup(fbAuth, provider);
 
-    const idToken = await response.user.getIdToken();
-    fetcher.submit({ idToken: idToken }, { method: 'post' });
+    // const idToken = await response.user.getIdToken();
+    // fetcher.submit({ idToken: idToken }, { method: 'post' });
   };
 
   return (

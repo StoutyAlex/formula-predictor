@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { type ActionFunctionArgs } from 'react-router';
 import useAuth from '~/contexts/auth/auth.hook';
-import { fbAuth } from '~/firebase/firebase-config';
 import { SessionService } from '~/services/session.service.server';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -16,9 +15,11 @@ export default function LogoutPage() {
   const { setUser } = useAuth();
 
   useEffect(() => {
-    fbAuth.signOut().then(() => {
-      setUser(null);
-    });
+    // fbAuth.signOut().then(() => {
+    //   setUser(null);
+    // });
+    setUser(null);
+    //
   }, [setUser]);
 
   return <div>Logging out...</div>;

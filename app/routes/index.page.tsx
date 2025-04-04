@@ -7,8 +7,8 @@ export const meta = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { success } = await SessionService.isValid(request);
-  if (success) return redirect('/dashboard');
+  const isValid = await SessionService.isValid(request);
+  // if (isValid.success) return redirect('/dashboard');
   return null;
 };
 

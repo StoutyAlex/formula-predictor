@@ -1,7 +1,6 @@
-import { FaDashcube, FaHome } from 'react-icons/fa';
-import { Link, Outlet, useLocation } from 'react-router';
+import { FaHome } from 'react-icons/fa';
+import { Outlet, useLocation } from 'react-router';
 import { Button } from '~/components/button.component';
-import useAuth from '~/contexts/auth/auth.hook';
 
 // TODO: Add icon
 const links = [

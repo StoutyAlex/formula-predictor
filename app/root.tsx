@@ -2,7 +2,6 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration, 
 
 import './app.css';
 import 'flag-icons/css/flag-icons.min.css';
-// import 'flowbite';
 
 import AuthProvider from './contexts/auth/auth.provider';
 
