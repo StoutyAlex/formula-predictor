@@ -4,6 +4,8 @@ export default [
   route('/login', 'routes/login.page.tsx'),
   route('/logout', 'routes/logout.page.tsx'),
 
+  // route('/health', 'routes/health.api.tsx'),
+
   layout('routes/site.layout.tsx', [
     index('routes/index.page.tsx'),
 

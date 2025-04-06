@@ -1,0 +1,73 @@
+{
+ "Description": "Formula Predictor Stack",
+ "Resources": {
+  "fpapprunnerproduction": {
+   "Type": "AWS::AppRunner::Service",
+   "Properties": {
+    "ServiceName": "fp-service-production",
+    "SourceConfiguration": {
+     "AuthenticationConfiguration": {
+      "ConnectionArn": "arn:aws:apprunner:eu-west-1:148819724023:connection/personal-github/3052db7617ae4fb4a5385f20abff250e"
+     },
+     "AutoDeploymentsEnabled": true,
+     "CodeRepository": {
+      "CodeConfiguration": {
+       "ConfigurationSource": "REPOSITORY"
+      },
+      "RepositoryUrl": "https://github.com/StoutyAlex/formula-predictor",
+      "SourceCodeVersion": {
+       "Type": "BRANCH",
+       "Value": "main"
+      }
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FormuaPredictorStack/fp-apprunner-production"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSM7Qw0zNQTCwv1k1OydbNyUzSqw4uSUzO1kksL45PLCgoKs3LSy3Sc07LC04tKstMTq3VyctPSdXLKtYvMzLSMzTSM1DMKs7M1C0qzSvJzE3VC4LQAMJKCmtaAAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FormuaPredictorStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,72 @@
+{
+  "version": "40.0.0",
+  "artifacts": {
+    "FormuaPredictorStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "FormuaPredictorStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "FormuaPredictorStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://148819724023/eu-west-1",
+      "properties": {
+        "templateFile": "FormuaPredictorStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::148819724023:role/cdk-hnb659fds-deploy-role-148819724023-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::148819724023:role/cdk-hnb659fds-cfn-exec-role-148819724023-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-148819724023-eu-west-1/cd775795e8f24288984a37cb8c8750d2fa87ecd0762779d493ce2d8efcde0093.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "FormuaPredictorStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::148819724023:role/cdk-hnb659fds-lookup-role-148819724023-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "formula-predictor"
+      },
+      "dependencies": [
+        "FormuaPredictorStack.assets"
+      ],
+      "metadata": {
+        "/FormuaPredictorStack/fp-apprunner-production": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fpapprunnerproduction"
+          }
+        ],
+        "/FormuaPredictorStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/FormuaPredictorStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/FormuaPredictorStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "FormuaPredictorStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
