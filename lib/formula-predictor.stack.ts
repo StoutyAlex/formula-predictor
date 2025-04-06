@@ -37,6 +37,9 @@ export class FormulaPredictorStack extends cdk.Stack {
       autoVerify: {
         email: false,
       },
+      customAttributes: {
+        role: new cognito.StringAttribute({ mutable: true }),
+      },
       standardAttributes: {
         email: {
           required: true,
@@ -72,26 +75,6 @@ export class FormulaPredictorStack extends cdk.Stack {
         ],
       },
     });
-
-    // const taskRole = new iam.Role(this, getId('application-role'), {
-    //   assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
-    // });
-
-    // // Main application role
-    // const taskPolicy = new iam.PolicyStatement({
-    //   effect: iam.Effect.ALLOW,
-    //   actions: [
-    //     'cognito-idp:InitiateAuth',
-    //     'cognito-idp:AdminCreateUser',
-    //     'cognito-idp:AdminConfirmSignUp',
-    //     'cognito-idp:AdminSetUserPassword',
-    //     'cognito-idp:ListUsers',
-    //     'cognito-idp:DescribeUserPool',
-    //   ],
-    //   resources: ['*'],
-    // });
-
-    // taskRole.addToPolicy(taskPolicy);
 
     const vpc = new ec2.Vpc(this, getId('vpc'), {
       maxAzs: 2,

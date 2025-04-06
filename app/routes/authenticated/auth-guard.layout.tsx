@@ -1,12 +1,11 @@
-import React from 'react';
-import type { LoaderFunctionArgs } from 'react-router';
+import React, { Suspense } from 'react';
+import { type LoaderFunctionArgs, Await, useLoaderData, useLocation } from 'react-router';
 import { Outlet, redirect } from 'react-router';
-// import { SessionService } from '~/services/session.service.server';
+import { SessionService } from '~/services/session.service.server';
 
 export const loader = async (params: LoaderFunctionArgs) => {
-  // const isSessionValid = await SessionService.isValid(params.request);
-  // if (isSessionValid.success) return;
-  return redirect('/login');
+  const userSession = await SessionService.isValid(params.request);
+  if (!userSession) throw redirect('/login');
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {

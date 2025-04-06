@@ -2,7 +2,6 @@ import { type RouteConfig, index, layout, route, prefix } from '@react-router/de
 
 export default [
   route('/login', 'routes/login.page.tsx'),
-  route('/logout', 'routes/logout.page.tsx'),
 
   ...prefix('/auth', [
     route('/register', 'routes/auth/register.api.ts'),

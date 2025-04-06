@@ -5,9 +5,11 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc",
+    "predev": "npm run typecheck",
+    "start": "npm run caddy && react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen",
     "postinstall": "flowbite-react patch",
+    "caddy": "caddy reload",
     "cdk": "cdk"
   },
   "dependencies": {
@@ -28,6 +30,9 @@
     "flowbite-react": "^0.11.5",
     "ioredis": "^5.6.0",
     "isbot": "^5.1.17",
+    "jose": "^6.0.10",
+    "jsonwebtoken": "^9.0.2",
+    "jwk-to-pem": "^2.0.7",
     "motion": "^12.6.2",
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
@@ -45,6 +50,8 @@
     "@react-router/dev": "^7.4.0",
     "@tailwindcss/vite": "^4.0.0",
     "@types/aws-lambda": "^8.10.148",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/jwk-to-pem": "^2.0.3",
     "@types/node": "^20",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
@@ -56,6 +63,7 @@
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
+    "vite-plugin-mkcert": "^1.17.8",
     "vite-tsconfig-paths": "^5.1.4"
   }
 }

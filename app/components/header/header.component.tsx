@@ -1,19 +1,20 @@
 import { FaFlagCheckered } from 'react-icons/fa';
 import { Button } from '../button.component';
 import { twMerge } from 'flowbite-react/helpers/tailwind-merge';
-import useAuth from '~/contexts/auth/auth.hook';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useRouteLoaderData } from 'react-router';
+import type { UserSession } from '~/services/session.service.server';
 
 interface HeaderProps {
   className?: string;
+  userSession?: UserSession;
 }
 
 export const HEADER_HEIGHT = 'h-16';
 export const HEADER_PX = '64px';
 
 export const Header = (props: HeaderProps) => {
-  const { user, initialized } = useAuth();
+  const { userSession } = props;
 
   const { pathname } = useLocation();
   const showPages = pathname === '/';
@@ -32,36 +33,34 @@ export const Header = (props: HeaderProps) => {
             <span className="text-gray-400 hover:text-white transition cursor-pointer">Rules</span>
           </div>
           <div className="tems-center gap-4 hidden sm:flex min-w-40 float-right">
-            {initialized && (
-              <>
-                {!user && <Button className="px-6 justify-end" value="Sign In" variant="accent" linkTo="/login" />}
-                {user && (
-                  <div className="flex justify-end gap-2 w-full z-[100] ">
-                    <Menu>
-                      <MenuButton>
-                        <img
-                          src={user.photoURL || 'https://via.placeholder.com/40'}
-                          alt="User Avatar"
-                          className="w-10 h-10 rounded-xl"
-                        />
-                      </MenuButton>
-                      <MenuItems
-                        anchor="bottom"
-                        className={
-                          'absolute z-[100] shadow-lg rounded-sm p-2 bg-btn-primary-hover hover:bg-btn-primary w-42 mt-1 border-2 border-btn-primary'
-                        }
-                      >
-                        <MenuItem>
-                          <Link to={'/logout'} className="block text-white pl-1">
-                            Sign Out
-                          </Link>
-                        </MenuItem>
-                      </MenuItems>
-                    </Menu>
-                  </div>
-                )}
-              </>
-            )}
+            <>
+              {!userSession && <Button className="px-6 justify-end" value="Sign In" variant="accent" linkTo="/login" />}
+              {userSession && (
+                <div className="flex justify-end gap-2 w-full z-[100] ">
+                  <Menu>
+                    <MenuButton>
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${userSession.username}&rounded=true`}
+                        alt="User Avatar"
+                        className="w-10 h-10 rounded-xl"
+                      />
+                    </MenuButton>
+                    <MenuItems
+                      anchor="bottom"
+                      className={
+                        'absolute z-[100] shadow-lg rounded-sm p-2 bg-btn-primary-hover hover:bg-btn-primary w-42 mt-1 border-2 border-btn-primary'
+                      }
+                    >
+                      <MenuItem>
+                        <Link to={'/auth/logout'} className="block text-white pl-1">
+                          Sign Out
+                        </Link>
+                      </MenuItem>
+                    </MenuItems>
+                  </Menu>
+                </div>
+              )}
+            </>
           </div>
         </nav>
       </div>

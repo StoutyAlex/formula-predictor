@@ -2,7 +2,6 @@ import { FaCar, FaFlagCheckered, FaUsers } from 'react-icons/fa';
 import { Button } from '../button.component';
 import type { IconType } from 'react-icons';
 import { useLocation } from 'react-router';
-import useAuth from '~/contexts/auth/auth.hook';
 
 export interface AdminListLink {
   name: string;
@@ -18,8 +17,10 @@ export const AdminList = (props: AdminListProps) => {
   const location = useLocation();
   const seasonYear = location.pathname.split('/')[2];
 
-  const { user } = useAuth();
-
+  const user = {
+    displayName: 'John Doe',
+    photoURL: 'https://placeholder.com/photo',
+  };
   const links = [
     { name: 'Constructors', icon: FaCar, path: `/admin/${seasonYear}/constructors` },
     { name: 'Drivers', icon: FaUsers, path: `/admin/${seasonYear}/drivers` },

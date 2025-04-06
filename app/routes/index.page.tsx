@@ -7,9 +7,9 @@ export const meta = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const isValid = await SessionService.isValid(request);
-  // if (isValid.success) return redirect('/dashboard');
-  return null;
+  const userSession = await SessionService.isValid(request);
+  if (userSession) return redirect('/dashboard');
+  return
 };
 
 const heroImage = 'https://storage.googleapis.com/uxpilot-auth.appspot.com/1acd26638c-c7f129efebd377c5739f.png';

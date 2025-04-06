@@ -1,9 +1,7 @@
-'use client';
-
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
-import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
-import { useFetcher } from 'react-router';
+import type { LoaderFunctionArgs } from 'react-router';
+import { redirect, useFetcher } from 'react-router';
 import { SessionService } from '~/services/session.service.server';
 import { loginUserSchema } from './auth/login.api';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
@@ -11,27 +9,11 @@ import { FormErrorResponse } from '~/lib/errors/form-error.response';
 import { FaTriangleExclamation } from 'react-icons/fa6';
 import { registerUserSchema } from './auth/register.api';
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const idToken = formData.get('idToken');
-
-  if (!idToken) {
-    return new Response('Missing token', { status: 400 });
-  }
-
-  try {
-    return await SessionService.login(request, idToken.toString(), '/home');
-  } catch (error) {
-    console.log('Error logging in:', error);
-    return new Response('Internal Server Error', { status: 500 });
-  }
-};
-
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session = await SessionService.isValid(request);
-  // if (session.success) {
-  //   return redirect('/home');
-  // }
+  const userSession = await SessionService.isValid(request);
+  if (userSession) {
+    return redirect('/dashboard');
+  }
 };
 
 const url = 'https://storage.googleapis.com/uxpilot-auth.appspot.com/2509bb5eca-f792921744e1e3e79484.png';
@@ -44,6 +26,7 @@ export enum LoginType {
 interface PageText {
   title: string;
   subtitle: string;
+  submutButtonText: string;
   alternateText: string;
   alternateButton: string;
 }
@@ -52,12 +35,14 @@ const pageTextMapping: Record<LoginType, PageText> = {
   login: {
     title: 'Welcome back',
     subtitle: 'Sign in to access your predictions',
+    submutButtonText: 'Sign In',
     alternateText: "Don't have an account?",
     alternateButton: 'Sign Up',
   },
   register: {
     title: 'Create an account',
     subtitle: 'Join us to start predicting',
+    submutButtonText: 'Sign Up',
     alternateText: 'Already have an account?',
     alternateButton: 'Sign In',
   },
@@ -152,7 +137,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#0E1015] flex items-center justify-center p-4" id="login-container">
-      <div className="w-full max-w-[1200px] md:min-h-[600px] flex rounded-2xl overflow-hidden shadow-2xl" id="login-wrapper">
+      <div
+        className="w-full max-w-[500px] lg:max-w-[1200px] min-h-[650px] flex rounded-2xl overflow-hidden shadow-2xl"
+        id="login-wrapper"
+      >
         {/* Left Panel */}
         <div className="hidden lg:block w-1/2 relative" id="login-hero">
           <img
@@ -171,10 +159,9 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-
         {/* Right Panel */}
-        <div className="w-full lg:w-1/2 bg-[#1A1D23] p-4 md:p-6" id="login-form-container">
-          <div className="max-w-md mx-auto h-full">
+        <div className="w-full lg:w-1/2 bg-[#1A1D23] p-6 sm:p-12" id="login-form-container">
+          <div className="h-full">
             <form className="space-y-6 flex flex-col h-full justify-between" id="login-form" onSubmit={handleSubmit}>
               <div id="input-container" className="flex flex-col gap-3">
                 <div className="text-center lg:text-left">
@@ -246,7 +233,7 @@ export default function LoginPage() {
                 </div>
 
                 <button className="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg py-3 font-medium transition">
-                  Sign In
+                  {text.submutButtonText}
                 </button>
 
                 <p className="text-center text-gray-400 text-sm">

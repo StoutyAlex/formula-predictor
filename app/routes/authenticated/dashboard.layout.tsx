@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { Outlet, useLocation } from 'react-router';
 import { Button } from '~/components/button.component';
@@ -8,9 +9,8 @@ const links = [
   { name: 'My Leagues', path: '/leagues' },
 ] as const;
 
-export default function HomeDashboardLayout() {
-  // const { user } = useAuth();
 
+export default function HomeDashboardLayout() {
   const location = useLocation();
 
   return (
@@ -20,11 +20,7 @@ export default function HomeDashboardLayout() {
           <aside className="col-span-1 md:col-span-4 lg:col-span-3" id="sidebar">
             <div className="bg-[#1A1D23] rounded-xl p-6 space-y-4">
               <div className="flex items-center gap-4 pb-4 border-b border-neutral-800">
-                <img
-                  src={'https://via.placeholder.com/150'}
-                  alt="User Avatar"
-                  className="w-16 h-16 rounded-full"
-                />
+                <img src={'https://via.placeholder.com/150'} alt="User Avatar" className="w-16 h-16 rounded-full" />
                 <div>
                   <h3 className="text-white">{'Alex'}</h3>
                   <p className="text-neutral-400">Pro Predictor</p>

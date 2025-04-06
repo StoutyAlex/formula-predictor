@@ -3,8 +3,6 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration, 
 import './app.css';
 import 'flag-icons/css/flag-icons.min.css';
 
-import AuthProvider from './contexts/auth/auth.provider';
-
 export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
@@ -36,18 +34,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const loader = () => {
-  console.log('Loading root route');
-  console.log('TEST VAR:', process.env.TEST_VARIABLE);
-  return null;
-};
-
 export default function App() {
-  return (
-    <AuthProvider>
-      <Outlet />
-    </AuthProvider>
-  );
+  return <Outlet />;
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
