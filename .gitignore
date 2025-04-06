@@ -10,3 +10,5 @@
 service-account.json
 
 app.config.*.json
+
+cdk.out

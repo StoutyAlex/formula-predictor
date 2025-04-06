@@ -1,7 +1,21 @@
 {
   "version": "40.0.0",
   "files": {
-    "cd775795e8f24288984a37cb8c8750d2fa87ecd0762779d493ce2d8efcde0093": {
+    "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200": {
+      "source": {
+        "path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "148819724023-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-148819724023-eu-west-1",
+          "objectKey": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::148819724023:role/cdk-hnb659fds-file-publishing-role-148819724023-eu-west-1"
+        }
+      }
+    },
+    "8789e985b8f7a09e7bca9f0b6ebce20002abf5d7c1de24181ba6c1f0192375ef": {
       "source": {
         "path": "FormuaPredictorStack.template.json",
         "packaging": "file"
@@ -9,12 +23,32 @@
       "destinations": {
         "148819724023-eu-west-1": {
           "bucketName": "cdk-hnb659fds-assets-148819724023-eu-west-1",
-          "objectKey": "cd775795e8f24288984a37cb8c8750d2fa87ecd0762779d493ce2d8efcde0093.json",
+          "objectKey": "8789e985b8f7a09e7bca9f0b6ebce20002abf5d7c1de24181ba6c1f0192375ef.json",
           "region": "eu-west-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::148819724023:role/cdk-hnb659fds-file-publishing-role-148819724023-eu-west-1"
         }
       }
     }
   },
-  "dockerImages": {}
+  "dockerImages": {
+    "33cdb265539f9309c398e486500017fd8a4443d4d35d785f0cc5801b3b994789": {
+      "source": {
+        "directory": "asset.33cdb265539f9309c398e486500017fd8a4443d4d35d785f0cc5801b3b994789",
+        "dockerBuildArgs": {
+          "PORT": "3000",
+          "TEST_VARIABLE": "test variable here :D"
+        },
+        "dockerFile": "Dockerfile",
+        "platform": "linux/amd64"
+      },
+      "destinations": {
+        "148819724023-eu-west-1": {
+          "repositoryName": "cdk-hnb659fds-container-assets-148819724023-eu-west-1",
+          "imageTag": "33cdb265539f9309c398e486500017fd8a4443d4d35d785f0cc5801b3b994789",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::148819724023:role/cdk-hnb659fds-image-publishing-role-148819724023-eu-west-1"
+        }
+      }
+    }
+  }
 }

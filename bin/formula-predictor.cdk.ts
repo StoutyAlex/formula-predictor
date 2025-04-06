@@ -7,7 +7,7 @@ import { FormulaPredictorStack } from '../lib/formula-predictor.stack';
 const app = new cdk.App();
 
 new FormulaPredictorStack(app, 'FormuaPredictorStack', {
-  environment: 'production',
+  environment: 'staging',
   stackName: 'formula-predictor',
   description: 'Formula Predictor Stack',
   env: {

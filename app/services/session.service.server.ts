@@ -1,6 +1,6 @@
 import { createCookieSessionStorage, redirect } from 'react-router';
 
-const { getSession, commitSession, destroySession } = createCookieSessionStorage({
+export const { getSession, commitSession, destroySession } = createCookieSessionStorage({
   cookie: {
     name: 'fb:token',
     httpOnly: true,

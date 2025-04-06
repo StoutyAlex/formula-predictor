@@ -36,6 +36,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+export const loader = () => {
+  console.log('Loading root route');
+  console.log('TEST VAR:', process.env.TEST_VARIABLE);
+  return null;
+};
+
 export default function App() {
   return (
     <AuthProvider>

@@ -19,7 +19,7 @@ COPY . ./
 # Build
 RUN npm run build
 
-EXPOSE 8080:3000
+EXPOSE 80:3000
 
 RUN ls -l
 # Run the web service on container startup.

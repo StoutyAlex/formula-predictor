@@ -4,7 +4,11 @@ export default [
   route('/login', 'routes/login.page.tsx'),
   route('/logout', 'routes/logout.page.tsx'),
 
-  // route('/health', 'routes/health.api.tsx'),
+  ...prefix('/auth', [
+    route('/register', 'routes/auth/register.api.ts'),
+    route('/login', 'routes/auth/login.api.ts'),
+    route('/logout', 'routes/auth/logout.api.ts'),
+  ]),
 
   layout('routes/site.layout.tsx', [
     index('routes/index.page.tsx'),
