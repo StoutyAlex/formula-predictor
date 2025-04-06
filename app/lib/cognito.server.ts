@@ -4,6 +4,9 @@ import {
   AuthFlowType,
   AdminCreateUserCommand,
   AdminSetUserPasswordCommand,
+  NotAuthorizedException,
+  UsernameExistsException,
+  InvalidPasswordException,
 } from '@aws-sdk/client-cognito-identity-provider';
 import type { LoginUserData } from '~/routes/auth/login.api';
 import type { RegisterUserData } from '~/routes/auth/register.api';
@@ -57,7 +60,10 @@ export const loginUser = async (data: LoginUserData): Promise<LoginResponse> => 
       },
     };
   } catch (err: any) {
-    console.error(err);
+    if (err instanceof NotAuthorizedException) {
+      return { success: false, error: 'Invalid credentials' };
+    }
+
     return { success: false, error: err.message };
   }
 };
@@ -80,7 +86,7 @@ export async function registerUser(data: RegisterUserData) {
     UserPoolId: USER_POOL_ID,
     Username: email,
     Password: password,
-    Permanent: true, // 🔐 this makes it not temporary
+    Permanent: true,
   });
 
   try {
@@ -89,7 +95,15 @@ export async function registerUser(data: RegisterUserData) {
 
     return { success: true };
   } catch (err: any) {
-    console.error(err);
-    return { success: false, error: err.message };
+    console.error('Error creating user:', err);
+    if (err instanceof UsernameExistsException) {
+      return { success: false, error: 'User already exists' };
+    }
+
+    if (err instanceof InvalidPasswordException) {
+      return { success: false, error: 'Password' };
+    }
+
+    return { success: false, error: 'Unknown Error Occured' };
   }
 }
