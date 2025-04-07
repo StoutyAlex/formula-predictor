@@ -6,9 +6,6 @@ import { SessionService } from '~/services/session.service.server';
 export const loader = async (params: LoaderFunctionArgs) => {
   const userSession = await SessionService.isValid(params.request);
   if (!userSession) throw redirect('/login');
-  return {
-    userSession,
-  };
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {

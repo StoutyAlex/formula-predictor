@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
-import type { LoaderFunctionArgs } from 'react-router';
 import { redirect, useFetcher } from 'react-router';
-import { SessionService } from '~/services/session.service.server';
 import { loginUserSchema } from './auth/login.api';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
 import { FormErrorResponse } from '~/lib/errors/form-error.response';
 import { FaTriangleExclamation } from 'react-icons/fa6';
 import { registerUserSchema } from './auth/register.api';
+import type { Route } from './+types/login.page';
+import { SessionService } from '~/services/session.service.server';
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   const userSession = await SessionService.isValid(request);
   if (userSession) {
     return redirect('/dashboard');
@@ -48,7 +48,7 @@ const pageTextMapping: Record<LoginType, PageText> = {
   },
 } as const;
 
-export default function LoginPage() {
+export default function LoginPage({ loaderData }: Route.ComponentProps) {
   const { data, submit } = useFetcher();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -137,6 +137,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#0E1015] flex items-center justify-center p-4" id="login-container">
+      {JSON.stringify(loaderData, null, 2)}
       <div
         className="w-full max-w-[500px] lg:max-w-[1200px] min-h-[650px] flex rounded-2xl overflow-hidden shadow-2xl"
         id="login-wrapper"
@@ -145,7 +146,7 @@ export default function LoginPage() {
         <div className="hidden lg:block w-1/2 relative" id="login-hero">
           <img
             className="absolute inset-0 w-full h-full object-cover"
-            src="https://storage.googleapis.com/uxpilot-auth.appspot.com/2509bb5eca-f792921744e1e3e79484.png"
+            src={url}
             alt="formula one racing car on track at night with dramatic lighting, motion blur, professional photography"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-red-600/30 to-black/50"></div>

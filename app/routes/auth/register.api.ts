@@ -1,9 +1,6 @@
-import { redirect, type ActionFunctionArgs } from 'react-router';
+import { type ActionFunctionArgs } from 'react-router';
 import { z } from 'zod';
-import { loginUser, registerUser } from '~/lib/cognito.server';
-import { FormErrorResponse } from '~/lib/errors/form-error.response';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
-import { commitSession, getSession } from '~/services/session.service.server';
 
 export const registerUserSchema = z.object({
   email: z.string().email(),
@@ -32,26 +29,26 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return FormFieldErrorResponse.fromZodError(error);
   }
 
-  const registerUserResponse = await registerUser(registerUserData);
-  if (!registerUserResponse.success && registerUserResponse.error) {
-    return new FormErrorResponse({ message: registerUserResponse.error }, 500);
-  }
+  // const registerUserResponse = await registerUser(registerUserData);
+  // if (!registerUserResponse && registerUserResponse.error) {
+  //   return new FormErrorResponse({ message: registerUserResponse.error }, 500);
+  // }
 
-  const loginUserResponse = await loginUser({
-    email: registerUserData.email,
-    password: registerUserData.password,
-  });
+  // const loginUserResponse = await loginUser({
+  //   email: registerUserData.email,
+  //   password: registerUserData.password,
+  // });
 
-  if (!loginUserResponse.success) {
-    return new FormErrorResponse({ message: 'Server error, try again later.' }, 500);
-  }
+  // if (!loginUserResponse.success) {
+  //   return new FormErrorResponse({ message: 'Server error, try again later.' }, 500);
+  // }
 
-  const session = await getSession(request.headers.get('Cookie'));
-  session.set('id_token', loginUserResponse.tokens.idToken);
+  // const session = await getSession(request.headers.get('Cookie'));
+  // session.set('id_token', loginUserResponse.tokens.idToken);
 
-  return redirect('/', {
-    headers: {
-      'Set-Cookie': await commitSession(session),
-    },
-  });
+  // return redirect('/', {
+  //   headers: {
+  //     'Set-Cookie': await commitSession(session),
+  //   },
+  // });
 };

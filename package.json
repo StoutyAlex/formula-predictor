@@ -9,21 +9,14 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen",
     "postinstall": "flowbite-react patch",
-    "caddy": "caddy reload",
-    "loadEnvFromStack": "npx tsx ./lib/copy-stack-output-env.ts",
-    "cdk:synth": "cdk synth",
-    "cdk:deploy": "cdk deploy && npm run loadEnvFromStack"
+    "caddy": "caddy reload"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudformation": "^3.782.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.782.0",
     "@emotion/react": "^11.14.0",
     "@headlessui/react": "^2.2.0",
     "@react-google-maps/api": "^2.20.6",
     "@react-router/node": "^7.4.0",
     "@react-router/serve": "^7.4.0",
-    "aws-cdk": "2.1007.0",
-    "aws-lambda": "^1.0.7",
     "cdk-ecr-deployment": "^4.0.1",
     "countries-list": "^3.1.1",
     "country-flag-icons": "^1.5.18",
@@ -52,7 +45,6 @@
   "devDependencies": {
     "@react-router/dev": "^7.4.0",
     "@tailwindcss/vite": "^4.0.0",
-    "@types/aws-lambda": "^8.10.148",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/jwk-to-pem": "^2.0.3",
     "@types/node": "^20",
@@ -60,7 +52,6 @@
     "@types/react-dom": "^19.0.1",
     "@types/react-world-flags": "^1.6.0",
     "@types/source-map-support": "^0.5.10",
-    "aws-cdk-lib": "2.186.0",
     "constructs": "^10.0.0",
     "react-router-devtools": "^1.1.8",
     "tailwindcss": "^4.0.0",

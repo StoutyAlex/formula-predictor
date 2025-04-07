@@ -20,14 +20,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return FormFieldErrorResponse.fromZodError(error);
   }
 
-  const result = await loginUser(loginUserData);
-  if (!result.success) {
-    console.log('Error logging in:', result.error);
-    return new FormErrorResponse({ message: 'Incorrect Login' }, 401);
+  const loginResponse = await loginUser(loginUserData);
+  if (!loginResponse) {
+    return new FormErrorResponse({ message: 'Server error, try again later.' }, 500);
   }
 
   const session = await getSession(request.headers.get('Cookie'));
-  session.set('id_token', result.tokens.idToken);
+  session.set('id_token', loginResponse.idToken);
 
   return redirect('/dashboard', {
     headers: {

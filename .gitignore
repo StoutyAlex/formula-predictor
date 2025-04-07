@@ -5,11 +5,13 @@
 /.react-router/
 /build/
 
-.env
-
 service-account.json
 
 app.config.*.json
 
 cdk.out
 ssl
+
+certs/
+
+.env*
