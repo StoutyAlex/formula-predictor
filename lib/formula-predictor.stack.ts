@@ -8,6 +8,7 @@ import * as ecs_patterns from 'aws-cdk-lib/aws-ecs-patterns';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -16,7 +17,6 @@ import { IdentityPool, UserPoolAuthenticationProvider } from 'aws-cdk-lib/aws-co
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
-
 interface FormulaPredictorStackProps extends cdk.StackProps {
   environment: 'staging' | 'production';
 }
@@ -82,13 +82,37 @@ export class FormulaPredictorStack extends cdk.Stack {
 
     const cluster = new ecs.Cluster(this, getId('cluster'), { vpc });
 
+    const constructorsTable = new dynamodb.Table(this, getId('constructors'), {
+      partitionKey: {
+        name: 'id',
+        type: dynamodb.AttributeType.STRING,
+      },
+      sortKey: {
+        name: 'year',
+        type: dynamodb.AttributeType.STRING,
+      },
+      tableName: getName('constructors'),
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+    });
+
+    const taskImageEnvironment = {
+      VITE_NODE_ENV: 'production',
+      VITE_AWS_REGION: this.region,
+      VITE_USER_POOL_ID: userPool.userPoolId,
+      VITE_USER_POOL_CLIENT_ID: userPoolClient.userPoolClientId,
+      VITE_IDENTITY_POOL_ID: identityPool.identityPoolId,
+      VITE_CONSTRUCTORS_TABLE_NAME: constructorsTable.tableName,
+      VITE_TEST_URL: 'https://test.formula-predictor.co.uk',
+      TEST_URL: 'https://test.formula-predictor.co.uk',
+    };
+
     const dockerAsset = new erc.DockerImageAsset(this, getId('docker-asset'), {
       directory: path.join(__dirname, '../'),
       file: 'Dockerfile',
       platform: erc.Platform.LINUX_AMD64,
       buildArgs: {
         PORT: '3000',
-        TEST_VARIABLE: 'test variable here :D',
       },
     });
 
@@ -101,10 +125,19 @@ export class FormulaPredictorStack extends cdk.Stack {
       listenerPort: 80,
       taskImageOptions: {
         image: ecs.ContainerImage.fromDockerImageAsset(dockerAsset),
+        environment: taskImageEnvironment,
         containerPort: 3000,
       },
       publicLoadBalancer: true,
     });
+
+    constructorsTable.grantFullAccess(fargateService.taskDefinition.taskRole);
+    fargateService.taskDefinition.taskRole.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        actions: ['cognito-idp:AdminCreateUser', 'cognito-idp:InitiateAuth', 'cognito-idp:AdminSetUserPassword'],
+        resources: [userPool.userPoolArn],
+      })
+    );
 
     const zone = route53.HostedZone.fromLookup(this, getId('hosted-zone'), {
       domainName: 'formula-predictor.co.uk',
@@ -115,19 +148,29 @@ export class FormulaPredictorStack extends cdk.Stack {
       target: route53.RecordTarget.fromAlias(new targets.LoadBalancerTarget(fargateService.loadBalancer)),
     });
 
-    new cdk.CfnOutput(this, 'userPoolId', {
+    new cdk.CfnOutput(this, 'VITE_NODE_ENV', {
+      exportName: 'ViteNodeEnv',
+      value: props.environment === 'production' ? 'production' : 'development',
+    });
+
+    new cdk.CfnOutput(this, 'VITE_REGION', {
+      exportName: 'ViteRegion',
+      value: this.region,
+    });
+
+    new cdk.CfnOutput(this, 'VITE_USER_POOL_ID', {
+      exportName: 'ViteUserPoolId',
       value: userPool.userPoolId,
-      description: 'User Pool ID',
     });
 
-    new cdk.CfnOutput(this, 'userPoolClientId', {
+    new cdk.CfnOutput(this, 'VITE_USER_POOL_CLIENT_ID', {
+      exportName: 'ViteUserPoolClientId',
       value: userPoolClient.userPoolClientId,
-      description: 'User Pool Client ID',
     });
 
-    new cdk.CfnOutput(this, 'identityPoolId', {
-      value: identityPool.identityPoolId,
-      description: 'Identity Pool ID',
+    new cdk.CfnOutput(this, 'VITE_CONSTRUCTORS_TABLE_NAME', {
+      exportName: 'ViteConstructorsTableName',
+      value: constructorsTable.tableName,
     });
   }
 }

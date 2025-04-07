@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { Outlet, useLocation } from 'react-router';
 import { Button } from '~/components/button.component';

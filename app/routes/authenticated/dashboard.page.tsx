@@ -1,22 +1,19 @@
 import type { Route } from './+types/dashboard.page';
-import { Suspense } from 'react';
-import { Await, useLoaderData, useLocation, type LoaderFunction, type LoaderFunctionArgs } from 'react-router';
 
 export function meta() {
   return [{ title: 'Formula Predictor - Home' }, { name: 'description', content: 'Formula Predictor Home page' }];
 }
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-  let nonCriticalData = new Promise((res) => setTimeout(() => res('non-critical'), 5000));
-  let criticalData = new Promise((res) => setTimeout(() => res('critical'), 300));
-
-  return { criticalData, nonCriticalData };
+export const loader = async (_: Route.LoaderArgs) => {
+  return {
+    metaImport: import.meta.env.TEST_URL,
+    metaImportVite: import.meta.env.VITE_TEST_URL,
+    processEnv: process.env.TEST_URL,
+    processEnvVite: process.env.VITE_TEST_URL,
+  };
 };
 
 export default function DashboardPage({ loaderData }: Route.ComponentProps) {
-  const { criticalData, nonCriticalData } = loaderData;
-  const location = useLocation();
-
   return (
     <>
       <section id="upcoming-race" className="bg-[#1A1D23] rounded-xl p-6 @container/next">
@@ -37,13 +34,7 @@ export default function DashboardPage({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      <Suspense key={location.key} fallback={<div>Loading...</div>}>
-        <Await resolve={nonCriticalData} errorElement={<div>Error loading user session</div>}>
-          <div>
-            <p>{nonCriticalData}</p>
-          </div>
-        </Await>
-      </Suspense>
+      {JSON.stringify(loaderData)}
 
       <section id="my-leagues" className="bg-[#1A1D23] rounded-xl p-6">
         <div className="flex justify-between items-center mb-6">

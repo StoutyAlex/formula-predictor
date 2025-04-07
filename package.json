@@ -6,13 +6,16 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "predev": "npm run typecheck",
-    "start": "npm run caddy && react-router-serve ./build/server/index.js",
+    "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen",
     "postinstall": "flowbite-react patch",
     "caddy": "caddy reload",
-    "cdk": "cdk"
+    "loadEnvFromStack": "npx tsx ./lib/copy-stack-output-env.ts",
+    "cdk:synth": "cdk synth",
+    "cdk:deploy": "cdk deploy && npm run loadEnvFromStack"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudformation": "^3.782.0",
     "@aws-sdk/client-cognito-identity-provider": "^3.782.0",
     "@emotion/react": "^11.14.0",
     "@headlessui/react": "^2.2.0",
