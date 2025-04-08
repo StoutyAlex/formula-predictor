@@ -1,19 +1,8 @@
-import type { Route } from './+types/dashboard.page';
-
 export function meta() {
   return [{ title: 'Formula Predictor - Home' }, { name: 'description', content: 'Formula Predictor Home page' }];
 }
 
-export const loader = async (_: Route.LoaderArgs) => {
-  return {
-    metaImport: import.meta.env.TEST_URL,
-    metaImportVite: import.meta.env.VITE_TEST_URL,
-    processEnv: process.env.TEST_URL,
-    processEnvVite: process.env.VITE_TEST_URL,
-  };
-};
-
-export default function DashboardPage({ loaderData }: Route.ComponentProps) {
+export default function DashboardPage() {
   return (
     <>
       <section id="upcoming-race" className="bg-[#1A1D23] rounded-xl p-6 @container/next">
@@ -33,8 +22,6 @@ export default function DashboardPage({ loaderData }: Route.ComponentProps) {
           </div>
         </div>
       </section>
-
-      {JSON.stringify(loaderData)}
 
       <section id="my-leagues" className="bg-[#1A1D23] rounded-xl p-6">
         <div className="flex justify-between items-center mb-6">

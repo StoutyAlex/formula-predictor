@@ -6,7 +6,7 @@ import { SessionService } from '~/server/services/session.service';
 
 export const loader = async (params: Route.LoaderArgs) => {
   const userSession = await SessionService.isValid(params.request);
-  return userSession
+  return userSession;
 };
 
 export default function SiteLayout({ loaderData }: Route.ComponentProps) {

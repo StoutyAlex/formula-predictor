@@ -137,7 +137,6 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-[#0E1015] flex items-center justify-center p-4" id="login-container">
-      {JSON.stringify(loaderData, null, 2)}
       <div
         className="w-full max-w-[500px] lg:max-w-[1200px] min-h-[650px] flex rounded-2xl overflow-hidden shadow-2xl"
         id="login-wrapper"

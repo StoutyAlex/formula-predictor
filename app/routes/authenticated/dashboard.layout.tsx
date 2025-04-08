@@ -13,7 +13,7 @@ export default function HomeDashboardLayout() {
 
   return (
     <div className="min-h-screen flex" id="home-container">
-      <div className="container mx-auto -px-4 py-6">
+      <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <aside className="col-span-1 md:col-span-4 lg:col-span-3" id="sidebar">
             <div className="bg-[#1A1D23] rounded-xl p-6 space-y-4">
@@ -44,7 +44,7 @@ export default function HomeDashboardLayout() {
           </aside>
 
           <main
-            className="col-start-1 row-start-2 col-span-1 md:col-start-5  md:row-start-1 md:col-span-full lg:col-start-4 space-y-6"
+            className="col-start-1 row-start-2 col-span-1 md:col-start-5 md:row-start-1 md:col-span-full lg:col-start-4 space-y-6"
             id="main-content"
           >
             <Outlet />
