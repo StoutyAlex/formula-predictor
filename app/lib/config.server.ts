@@ -1,11 +1,13 @@
 interface ViteEnv {
   VITE_NODE_ENV: string;
+  VITE_DATABASE_URL: string;
   VITE_JWT_PRIVATE_KEY: string;
   VITE_JWT_PUBLIC_KEY: string;
 }
 
 export const viteEnv: ViteEnv = {
   VITE_NODE_ENV: import.meta.env.VITE_NODE_ENV,
+  VITE_DATABASE_URL: import.meta.env.VITE_DATABASE_URL,
   VITE_JWT_PRIVATE_KEY: import.meta.env.VITE_JWT_PRIVATE_KEY,
   VITE_JWT_PUBLIC_KEY: import.meta.env.VITE_JWT_PUBLIC_KEY,
 };
@@ -18,6 +20,9 @@ export const applicationConfig = {
     privateKey: viteEnv.VITE_JWT_PRIVATE_KEY,
     publicKey: viteEnv.VITE_JWT_PUBLIC_KEY,
   },
+  database: {
+    url: viteEnv.VITE_DATABASE_URL,
+  },
 };
 
 const validateEnv = (env: ViteEnv) => {
@@ -29,5 +34,4 @@ const validateEnv = (env: ViteEnv) => {
   }
 };
 
-console.log('Vite Environment Variables:', JSON.stringify(viteEnv, null, 2));
 validateEnv(viteEnv);

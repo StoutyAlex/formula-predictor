@@ -1,6 +1,6 @@
 import { redirect, type LoaderFunctionArgs } from 'react-router';
 import { Button } from '~/components/button.component';
-import { SessionService } from '~/services/session.service.server';
+import { SessionService } from '~/server/services/session.service';
 
 export const meta = () => {
   return [{ title: 'Formula Predictor' }, { name: 'description', content: 'Welcome to Formula Predictor!' }];
@@ -9,7 +9,7 @@ export const meta = () => {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userSession = await SessionService.isValid(request);
   if (userSession) return redirect('/dashboard');
-  return
+  return;
 };
 
 const heroImage = 'https://storage.googleapis.com/uxpilot-auth.appspot.com/1acd26638c-c7f129efebd377c5739f.png';

@@ -3,7 +3,7 @@ import { Button } from '../button.component';
 import { twMerge } from 'flowbite-react/helpers/tailwind-merge';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Link, useLocation, useRouteLoaderData } from 'react-router';
-import type { UserSession } from '~/services/session.service.server';
+import type { UserSession } from '~/server/services/session.service';
 
 interface HeaderProps {
   className?: string;

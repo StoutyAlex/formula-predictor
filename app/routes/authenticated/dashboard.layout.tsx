@@ -8,7 +8,6 @@ const links = [
   { name: 'My Leagues', path: '/leagues' },
 ] as const;
 
-
 export default function HomeDashboardLayout() {
   const location = useLocation();
 

@@ -7,7 +7,7 @@ import { FormErrorResponse } from '~/lib/errors/form-error.response';
 import { FaTriangleExclamation } from 'react-icons/fa6';
 import { registerUserSchema } from './auth/register.api';
 import type { Route } from './+types/login.page';
-import { SessionService } from '~/services/session.service.server';
+import { SessionService } from '~/server/services/session.service';
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const userSession = await SessionService.isValid(request);

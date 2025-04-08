@@ -1,9 +1,11 @@
-import { loginUser } from '~/lib/cognito.server';
 import { redirect, type ActionFunctionArgs } from 'react-router';
 import { z } from 'zod';
-import { commitSession, getSession } from '~/services/session.service.server';
+import { UserModel } from '~/server/models/user.model';
+import { compare } from 'bcryptjs';
+import { commitSession, SessionService } from '~/server/services/session.service';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
 import { FormErrorResponse } from '~/lib/errors/form-error.response';
+import { connect } from '~/mongoose/db.server';
 
 export const loginUserSchema = z.object({
   email: z.string().email(),
@@ -13,6 +15,7 @@ export const loginUserSchema = z.object({
 export type LoginUserData = z.infer<typeof loginUserSchema>;
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  await connect();
   const json = await request.json();
 
   const { data: loginUserData, success, error } = loginUserSchema.safeParse(json);
@@ -20,13 +23,21 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return FormFieldErrorResponse.fromZodError(error);
   }
 
-  const loginResponse = await loginUser(loginUserData);
-  if (!loginResponse) {
-    return new FormErrorResponse({ message: 'Server error, try again later.' }, 500);
+  const { email, password } = loginUserData;
+
+  const user = await UserModel.findByEmail(email);
+  if (!user) {
+    return new FormErrorResponse({ message: 'Incorrect email or password' }, 400);
   }
 
-  const session = await getSession(request.headers.get('Cookie'));
-  session.set('id_token', loginResponse.idToken);
+  try {
+    await compare(password, user.password);
+  } catch (error) {
+    console.error(error);
+    return new FormErrorResponse({ message: 'Incorrect email or password' }, 400);
+  }
+
+  const session = await SessionService.create(request, user);
 
   return redirect('/dashboard', {
     headers: {

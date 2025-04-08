@@ -1,6 +1,11 @@
-import { type ActionFunctionArgs } from 'react-router';
+import { redirect, type ActionFunctionArgs } from 'react-router';
 import { z } from 'zod';
+import { UserModel } from '~/server/models/user.model';
+import { hash } from 'bcryptjs';
+import { commitSession, SessionService } from '~/server/services/session.service';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
+import { FormErrorResponse } from '~/lib/errors/form-error.response';
+import { connect } from '~/mongoose/db.server';
 
 export const registerUserSchema = z.object({
   email: z.string().email(),
@@ -21,6 +26,7 @@ export const registerUserSchema = z.object({
 export type RegisterUserData = z.infer<typeof registerUserSchema>;
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  await connect();
   const json = await request.json();
 
   const { data: registerUserData, success, error } = registerUserSchema.safeParse(json);
@@ -29,26 +35,35 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return FormFieldErrorResponse.fromZodError(error);
   }
 
-  // const registerUserResponse = await registerUser(registerUserData);
-  // if (!registerUserResponse && registerUserResponse.error) {
-  //   return new FormErrorResponse({ message: registerUserResponse.error }, 500);
-  // }
+  const { email, username, password } = registerUserData;
 
-  // const loginUserResponse = await loginUser({
-  //   email: registerUserData.email,
-  //   password: registerUserData.password,
-  // });
+  const [existsEmail, existsUsername] = await Promise.all([
+    UserModel.exists({ email: registerUserData.email }),
+    UserModel.exists({ username: registerUserData.username }),
+  ]);
 
-  // if (!loginUserResponse.success) {
-  //   return new FormErrorResponse({ message: 'Server error, try again later.' }, 500);
-  // }
+  if (existsEmail) {
+    return new FormErrorResponse({ message: 'Account already with this email' }, 400);
+  }
 
-  // const session = await getSession(request.headers.get('Cookie'));
-  // session.set('id_token', loginUserResponse.tokens.idToken);
+  if (existsUsername) {
+    return new FormErrorResponse({ message: 'Account already with this username' }, 400);
+  }
 
-  // return redirect('/', {
-  //   headers: {
-  //     'Set-Cookie': await commitSession(session),
-  //   },
-  // });
+  const hashedPassword = await hash(password, 10);
+
+  const user = await new UserModel({
+    password: hashedPassword,
+    username,
+    email,
+    profile: {},
+  }).save();
+
+  const session = await SessionService.create(request, user);
+
+  return redirect('/', {
+    headers: {
+      'Set-Cookie': await commitSession(session),
+    },
+  });
 };

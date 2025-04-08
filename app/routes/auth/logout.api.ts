@@ -1,5 +1,5 @@
 import { redirect, type ActionFunctionArgs } from 'react-router';
-import { destroySession, getSession } from '~/services/session.service.server';
+import { destroySession, getSession } from '~/server/services/session.service';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const session = await getSession(request.headers.get('cookie'));
