@@ -1,6 +1,7 @@
 import { FaHome } from 'react-icons/fa';
-import { Outlet, useLocation } from 'react-router';
+import { Outlet, redirect, useLocation, useRouteLoaderData } from 'react-router';
 import { Button } from '~/components/button.component';
+import type { UserSession } from '~/server/services/session.service';
 
 // TODO: Add icon
 const links = [
@@ -11,6 +12,12 @@ const links = [
 export default function HomeDashboardLayout() {
   const location = useLocation();
 
+  // TODO: Use a contect for user
+  const userSession = useRouteLoaderData<UserSession>('auth-layout');
+  if (!userSession) {
+    return redirect('/login');
+  }
+
   return (
     <div className="min-h-screen flex" id="home-container">
       <div className="container mx-auto px-4 py-6">
@@ -20,7 +27,7 @@ export default function HomeDashboardLayout() {
               <div className="flex items-center gap-4 pb-4 border-b border-neutral-800">
                 <img src={'https://via.placeholder.com/150'} alt="User Avatar" className="w-16 h-16 rounded-full" />
                 <div>
-                  <h3 className="text-white">{'Alex'}</h3>
+                  <h3 className="text-white">{userSession.username}</h3>
                   <p className="text-neutral-400">Pro Predictor</p>
                 </div>
               </div>

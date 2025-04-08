@@ -14,7 +14,7 @@ export default [
   layout('routes/site.layout.tsx', [
     index('routes/index.page.tsx'),
 
-    layout('routes/authenticated/auth-guard.layout.tsx', [
+    layout('routes/authenticated/auth-guard.layout.tsx', { id: 'auth-layout'}, [
       layout('routes/authenticated/dashboard.layout.tsx', [
         route('/dashboard', 'routes/authenticated/dashboard.page.tsx'),
         route('/leagues', 'routes/authenticated/league/index.page.tsx'),
