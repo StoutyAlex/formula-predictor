@@ -1,12 +1,12 @@
 import { prop } from '@typegoose/typegoose';
-import { randomUUID } from 'crypto';
+import { v4 as uuid } from 'uuid';
 
 export interface UserProfile {
   isAdmin?: boolean;
 }
 
 export class User {
-  @prop({ type: String, default: () => randomUUID() })
+  @prop({ type: String, default: () => uuid() })
   public _id!: string;
 
   @prop({ type: String, required: true, unique: true })

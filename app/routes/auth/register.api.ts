@@ -4,7 +4,7 @@ import { hash } from 'bcryptjs';
 import { commitSession, SessionService } from '~/server/services/session.service';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
 import { FormErrorResponse } from '~/lib/errors/form-error.response';
-import { connect } from '~/mongoose/db.server';
+import { connect } from '~/server/db.server';
 import { UserCollection } from '~/server/database/collections/user.collection';
 
 export const registerUserSchema = z.object({

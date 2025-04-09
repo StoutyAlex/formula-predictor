@@ -9,6 +9,17 @@ export class SeasonCollection {
     },
   });
 
+  static async create(data: Season) {
+    const season = new this.model(data);
+    await season.save();
+    return season;
+  }
+
+  static async update(id: string, data: Season) {
+    const result = await this.model.updateOne({ _id: id }, { $set: data }).exec();
+    return result.modifiedCount === 1;
+  }
+
   static async findById(id: string) {
     return await this.model.findOne({ _id: id }).exec();
   }

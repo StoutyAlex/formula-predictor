@@ -1,5 +1,5 @@
 import { prop } from '@typegoose/typegoose';
-import { randomUUID } from 'crypto';
+import { v4 as uuid } from 'uuid';
 
 export interface Country {
   name: string;
@@ -7,7 +7,7 @@ export interface Country {
 }
 
 export class Driver {
-  @prop({ type: String, default: () => randomUUID(), unique: true })
+  @prop({ type: String, default: () => uuid(), unique: true })
   public _id?: string;
 
   @prop({ type: String, required: true })

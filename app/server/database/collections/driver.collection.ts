@@ -20,6 +20,11 @@ export class DriverCollection {
     return new DriverCollection(season);
   }
 
+  async update(id: string, data: Driver) {
+    const result = await this.DriverModel.updateOne({ _id: id }, { $set: data }).exec();
+    return result.modifiedCount === 1;
+  }
+
   async create(data: Driver) {
     const driver = new this.DriverModel(data);
     await driver.save();

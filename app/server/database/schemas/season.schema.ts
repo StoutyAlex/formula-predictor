@@ -1,8 +1,8 @@
-import { getModelForClass, prop } from '@typegoose/typegoose';
-import { randomUUID } from 'crypto';
+import { prop } from '@typegoose/typegoose';
+import { v4 as uuid } from 'uuid';
 
 export class Season {
-  @prop({ type: String, default: () => randomUUID() })
+  @prop({ type: String, default: () => uuid() })
   public _id!: string;
 
   @prop({ type: String, required: true, unique: true })

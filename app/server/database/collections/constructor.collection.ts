@@ -20,10 +20,18 @@ export class ConstructorCollection {
     return new ConstructorCollection(season);
   }
 
+  async update(id: string, data: Constructor) {
+    const result = await this.ConstrutorModel.updateOne({ _id: id }, { $set: data }).exec();
+    if (result.modifiedCount === 0) {
+      return false;
+    }
+    return true;
+  }
+
   async create(data: Constructor) {
-    const driver = new this.ConstrutorModel(data);
-    await driver.save();
-    return driver;
+    const constructor = new this.ConstrutorModel(data);
+    await constructor.save();
+    return constructor;
   }
 
   async findById(id: string) {
