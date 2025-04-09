@@ -1,11 +1,12 @@
 import { redirect, type ActionFunctionArgs } from 'react-router';
 import { z } from 'zod';
-import { UserModel } from '~/server/models/user.model';
 import { compare } from 'bcryptjs';
 import { commitSession, SessionService } from '~/server/services/session.service';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
 import { FormErrorResponse } from '~/lib/errors/form-error.response';
 import { connect } from '~/mongoose/db.server';
+import { UserCollection } from '~/server/database/collections/user.collection';
+import { DriverCollection } from '~/server/database/collections/driver.collection';
 
 export const loginUserSchema = z.object({
   email: z.string().email(),
@@ -25,7 +26,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { email, password } = loginUserData;
 
-  const user = await UserModel.findByEmail(email);
+  const user = await UserCollection.findByEmail(email);
   if (!user) {
     return new FormErrorResponse({ message: 'Incorrect email or password' }, 400);
   }

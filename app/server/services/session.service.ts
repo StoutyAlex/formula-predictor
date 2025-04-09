@@ -2,7 +2,8 @@ import { createCookieSessionStorage } from 'react-router';
 import * as jose from 'jose';
 import { createPrivateKey, createPublicKey } from 'crypto';
 import { applicationConfig } from '~/lib/config.server';
-import type { User, UserProfile } from '../models/user.model';
+import { UserCollection } from '../database/collections/user.collection';
+import type { User, UserProfile } from '../database/schemas/user.schema';
 
 const privateKey = createPrivateKey({
   key: applicationConfig.jwt.privateKey,

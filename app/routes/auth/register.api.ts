@@ -1,11 +1,11 @@
 import { redirect, type ActionFunctionArgs } from 'react-router';
 import { z } from 'zod';
-import { UserModel } from '~/server/models/user.model';
 import { hash } from 'bcryptjs';
 import { commitSession, SessionService } from '~/server/services/session.service';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
 import { FormErrorResponse } from '~/lib/errors/form-error.response';
 import { connect } from '~/mongoose/db.server';
+import { UserCollection } from '~/server/database/collections/user.collection';
 
 export const registerUserSchema = z.object({
   email: z.string().email(),
@@ -38,8 +38,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { email, username, password } = registerUserData;
 
   const [existsEmail, existsUsername] = await Promise.all([
-    UserModel.exists({ email: registerUserData.email }),
-    UserModel.exists({ username: registerUserData.username }),
+    UserCollection.exists({ email: registerUserData.email }),
+    UserCollection.exists({ username: registerUserData.username }),
   ]);
 
   if (existsEmail) {
@@ -52,7 +52,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const hashedPassword = await hash(password, 10);
 
-  const user = await new UserModel({
+  const user = await new UserCollection.model({
     password: hashedPassword,
     username,
     email,
