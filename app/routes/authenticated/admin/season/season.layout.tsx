@@ -1,15 +1,10 @@
 import type { LoaderFunctionArgs, ShouldRevalidateFunction } from 'react-router';
-import { Outlet, redirect } from 'react-router';
+import { Outlet } from 'react-router';
 import { AdminList } from '~/components/admin/admin-list.component';
-import { SeasonCollection } from '~/database/season.collection.server';
 import type { SeasonString } from '~/types/f1.types';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const seasonString = params.seasonYear as SeasonString;
-  const season = await SeasonCollection.get(seasonString);
-  if (!season) {
-    return redirect('/admin');
-  }
+
 };
 
 export const shouldRevalidate: ShouldRevalidateFunction = (args) => {

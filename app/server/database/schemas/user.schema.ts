@@ -20,7 +20,4 @@ export class User {
 
   @prop({ type: Object, default: () => ({}) })
   public profile?: UserProfile;
-
-  @prop({ type: Array })
-  public groups?: string[];
 }
