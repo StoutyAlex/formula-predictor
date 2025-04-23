@@ -26,6 +26,7 @@ export const registerUserSchema = z.object({
 export type RegisterUserData = z.infer<typeof registerUserSchema>;
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  console.log('Register action called');
   await connect();
   const json = await request.json();
 

@@ -7,7 +7,7 @@ interface ButtonProps {
   onClick?: () => void;
   icon?: IconType;
   value?: string;
-  variant?: 'list' | 'accent' | 'secondary' | 'listActive' | 'submit'
+  variant?: 'list' | 'accent' | 'secondary' | 'listActive' | 'submit' | 'primary';
   linkTo?: string;
   active?: boolean;
   center?: boolean;
@@ -22,7 +22,10 @@ const buttonVariants = tv({
       listActive: 'bg-[#FF1801]/10 border-[#FF1801]/20 text-white',
       list: 'hover:bg-[#262931] bg-transparent text-gray-400 w-full',
       accent: 'hover:bg-accent-hover bg-accent text-white',
-      submit: 'hover:bg-accent-hover bg-accent text-white font-medium',
+      primary:
+        'bg-gradient-to-r from-red-600 to-red-700 text-white rounded-md shadow-sm shadow-red-500/20 transition-all duration-500 hover:shadow-red-500/30 hover:from-red-700 hover:to-red-800',
+      submit:
+        'bg-gradient-to-r from-red-600 to-red-700 text-white rounded-md shadow-sm shadow-red-500/20 transition-all duration-500 hover:shadow-red-500/30 hover:from-red-700 hover:to-red-800',
       secondary: 'bg-[#262931] hover:bg-[#2D3039] text-white',
     },
     state: {

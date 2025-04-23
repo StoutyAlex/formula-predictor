@@ -87,6 +87,7 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
     });
 
     if (!success && error) {
+      console.log('errors final', success, error);
       const fieldError = FormFieldErrorResponse.fromZodError(error);
       setFieldErrors(fieldError.error.fields);
       return;
@@ -118,6 +119,7 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
   useEffect(() => {
     if (!data) {
       setFieldErrors({});
+      setIsLoading(false);
       setFormError(undefined);
       return;
     }
@@ -232,7 +234,10 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
                   <span className="text-sm text-red-500 hover:text-red-400 transition cursor-pointer">Forgot Password?</span>
                 </div>
 
-                <button className="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg py-3 font-medium transition">
+                <button
+                  type="submit"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg py-3 font-medium transition"
+                >
                   {text.submutButtonText}
                 </button>
 

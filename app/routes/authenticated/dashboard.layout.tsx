@@ -5,8 +5,8 @@ import type { UserSession } from '~/server/services/session.service';
 
 // TODO: Add icon
 const links = [
-  { name: 'Dashboard', path: '/dashboard' },
-  { name: 'My Leagues', path: '/leagues' },
+  { name: 'Dashboard', path: '/dashboard', includes: ['/dashboard'] },
+  { name: 'My Leagues', path: '/leagues', includes: ['/leagues', '/league'] },
 ] as const;
 
 export default function HomeDashboardLayout() {
@@ -33,14 +33,15 @@ export default function HomeDashboardLayout() {
               </div>
               <div className="flex flex-col gap-2">
                 {links.map((link) => {
-                  const isActive = location.pathname.startsWith(link.path);
+                  const isActive =
+                    location.pathname.startsWith(link.path) || link.includes.some((path) => location.pathname.startsWith(path));
 
                   return (
                     <Button
                       linkTo={link.path}
                       key={link.name}
                       icon={FaHome}
-                      variant={isActive ? 'listActive' : 'list'}
+                      variant={isActive ? 'primary' : 'list'}
                       value={link.name}
                       className="p-3 w-full"
                     />

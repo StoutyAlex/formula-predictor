@@ -2,7 +2,6 @@ import { createCookieSessionStorage } from 'react-router';
 import * as jose from 'jose';
 import { createPrivateKey, createPublicKey } from 'crypto';
 import { applicationConfig } from '~/lib/config.server';
-import { UserCollection } from '../database/collections/user.collection';
 import type { User, UserProfile } from '../database/schemas/user.schema';
 
 const privateKey = createPrivateKey({
@@ -64,6 +63,20 @@ export class SessionService {
     const idToken = await this.generateIdToken(user);
     session.set('idToken', idToken);
     return session;
+  }
+
+  static async getUserId(request: Request) {
+    const session = await getSession(request.headers.get('Cookie'));
+    const idToken = session.get('idToken');
+    if (!idToken) return;
+
+    try {
+      const payload = jose.decodeJwt<SessionPayload>(idToken);
+      return payload.sub;
+    } catch (error) {
+      console.error('Error decoding JWT:', error);
+      return null;
+    }
   }
 
   static async isValid(request: Request) {

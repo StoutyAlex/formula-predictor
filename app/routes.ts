@@ -2,6 +2,7 @@ import { type RouteConfig, index, layout, route, prefix } from '@react-router/de
 
 export default [
   route('/login', 'routes/login.page.tsx'),
+  route('/invite/league/:leagueId', 'routes/invite/league.page.tsx'),
 
   ...prefix('/api', [route('/health', 'routes/api/health.api.tsx')]),
 
@@ -14,12 +15,15 @@ export default [
   layout('routes/site.layout.tsx', [
     index('routes/index.page.tsx'),
 
-    layout('routes/authenticated/auth-guard.layout.tsx', { id: 'auth-layout'}, [
+    layout('routes/authenticated/auth-guard.layout.tsx', { id: 'auth-layout' }, [
       layout('routes/authenticated/dashboard.layout.tsx', [
         route('/dashboard', 'routes/authenticated/dashboard.page.tsx'),
         route('/leagues', 'routes/authenticated/league/index.page.tsx'),
-
-        ...prefix('/league', [route('/create', 'routes/authenticated/league/create.page.tsx')]),
+        ...prefix('/league', [
+          route('/create', 'routes/authenticated/league/create.page.tsx'),
+          route('/join', 'routes/authenticated/league/join.page.tsx'),
+          route('/:leagueId', 'routes/authenticated/league/id.page.tsx'),
+        ]),
       ]),
     ]),
   ]),

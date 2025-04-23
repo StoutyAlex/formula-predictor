@@ -1,8 +1,26 @@
+import { Button } from '~/components/button.component';
+import type { Route } from './+types/dashboard.page';
+import { SessionService } from '~/server/services/session.service';
+import { Link, redirect } from 'react-router';
+import { LeagueCollection } from '~/server/database/collections/league.collection';
+
 export function meta() {
   return [{ title: 'Formula Predictor - Home' }, { name: 'description', content: 'Formula Predictor Home page' }];
 }
 
-export default function DashboardPage() {
+export const loader = async (params: Route.LoaderArgs) => {
+  const userId = await SessionService.getUserId(params.request);
+  if (!userId) throw redirect('/login');
+
+  const leagues = await LeagueCollection.getAllForUser(userId);
+  return {
+    leagues,
+  };
+};
+
+export default function DashboardPage(params: Route.ComponentProps) {
+  const { leagues } = params.loaderData;
+
   return (
     <>
       <section id="upcoming-race" className="bg-[#1A1D23] rounded-xl p-6 @container/next">
@@ -27,37 +45,28 @@ export default function DashboardPage() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl text-white">My Leagues</h2>
           <div className="flex gap-4">
-            <button className="bg-[#262931] text-white px-4 py-2 rounded-lg">Join League</button>
-            <button className="bg-[#262931] text-white px-4 py-2 rounded-lg">Create League</button>
+            <Button linkTo="/league/join" value="Join League" />
+            <Button linkTo="/league/create" value="Create League" />
           </div>
         </div>
         <div className="space-y-4">
-          <div className="bg-[#262931] p-4 rounded-lg flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <i className="fa-solid fa-trophy text-2xl text-neutral-500"></i>
-              <div>
-                <h3 className="text-white">Pro Predictors League</h3>
-                <p className="text-neutral-400">32 Members</p>
+          {leagues.map((league) => (
+            <div key={league._id} className="bg-[#262931] p-4 rounded-lg flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <i className="fa-solid fa-users text-2xl text-neutral-500"></i>
+                <div>
+                  <Link to={`/league/${league._id}`}>
+                    <h3 className="text-white">{league.name}</h3>
+                  </Link>
+                  <p className="text-neutral-400">{league.members.length} Members</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-white">Rank: #1</p>
+                <p className="text-neutral-400">123 Points</p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-white">Rank: #3</p>
-              <p className="text-neutral-400">850 Points</p>
-            </div>
-          </div>
-          <div className="bg-[#262931] p-4 rounded-lg flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <i className="fa-solid fa-users text-2xl text-neutral-500"></i>
-              <div>
-                <h3 className="text-white">Friends & Family</h3>
-                <p className="text-neutral-400">12 Members</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="text-white">Rank: #1</p>
-              <p className="text-neutral-400">920 Points</p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
     </>
