@@ -14,6 +14,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'albert_park',
       },
+      imageUrl: '/circuit-images/australia.avif',
       name: 'Albert Park Grand Prix Circuit',
       location: {
         lat: '-37.8497',
@@ -49,6 +50,7 @@ export class Meetings2025 {
         time: new Date('2025-03-16T04:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly china: Meeting = {
@@ -64,6 +66,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'shanghai',
       },
+      imageUrl: '/circuit-images/china.avif',
       name: 'Shanghai International Circuit',
       location: {
         lat: '31.3389',
@@ -99,6 +102,7 @@ export class Meetings2025 {
         time: new Date('2025-03-23T07:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly japan: Meeting = {
@@ -114,6 +118,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'suzuka',
       },
+      imageUrl: '/circuit-images/japan.avif',
       name: 'Suzuka Circuit',
       location: {
         lat: '34.8431',
@@ -149,6 +154,7 @@ export class Meetings2025 {
         time: new Date('2025-04-06T05:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly bahrain: Meeting = {
@@ -164,6 +170,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'bahrain',
       },
+      imageUrl: '/circuit-images/bahrain.avif',
       name: 'Bahrain International Circuit',
       location: {
         lat: '26.0325',
@@ -199,6 +206,7 @@ export class Meetings2025 {
         time: new Date('2025-04-13T15:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly jeddah: Meeting = {
@@ -214,6 +222,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'jeddah',
       },
+      imageUrl: '/circuit-images/jeddah.avif',
       name: 'Jeddah Corniche Circuit',
       location: {
         lat: '21.6319',
@@ -249,6 +258,7 @@ export class Meetings2025 {
         time: new Date('2025-04-20T17:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly miami: Meeting = {
@@ -264,6 +274,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'miami',
       },
+      imageUrl: '/circuit-images/miami.avif',
       name: 'Miami International Autodrome',
       location: {
         lat: '25.9581',
@@ -299,6 +310,7 @@ export class Meetings2025 {
         time: new Date('2025-05-04T20:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly imola: Meeting = {
@@ -314,6 +326,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'imola',
       },
+      imageUrl: '/circuit-images/imola.avif',
       name: 'Autodromo Enzo e Dino Ferrari',
       location: {
         lat: '44.3439',
@@ -349,6 +362,7 @@ export class Meetings2025 {
         time: new Date('2025-05-18T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly monaco: Meeting = {
@@ -364,6 +378,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'monaco',
       },
+      imageUrl: '/circuit-images/monaco.avif',
       name: 'Circuit de Monaco',
       location: {
         lat: '43.7347',
@@ -399,6 +414,7 @@ export class Meetings2025 {
         time: new Date('2025-05-25T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly spain: Meeting = {
@@ -414,6 +430,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'catalunya',
       },
+      imageUrl: '/circuit-images/spain.avif',
       name: 'Circuit de Barcelona-Catalunya',
       location: {
         lat: '41.57',
@@ -449,6 +466,7 @@ export class Meetings2025 {
         time: new Date('2025-06-01T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly canada: Meeting = {
@@ -464,6 +482,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'villeneuve',
       },
+      imageUrl: '/circuit-images/canada.avif',
       name: 'Circuit Gilles Villeneuve',
       location: {
         lat: '45.5',
@@ -499,6 +518,7 @@ export class Meetings2025 {
         time: new Date('2025-06-15T18:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly austria: Meeting = {
@@ -514,6 +534,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'red_bull_ring',
       },
+      imageUrl: '/circuit-images/austria.avif',
       name: 'Red Bull Ring',
       location: {
         lat: '47.2197',
@@ -549,6 +570,7 @@ export class Meetings2025 {
         time: new Date('2025-06-29T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly britain: Meeting = {
@@ -564,6 +586,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'silverstone',
       },
+      imageUrl: '/circuit-images/silverstone.avif',
       name: 'Silverstone Circuit',
       location: {
         lat: '52.0786',
@@ -599,6 +622,7 @@ export class Meetings2025 {
         time: new Date('2025-07-06T14:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly belgian: Meeting = {
@@ -611,6 +635,7 @@ export class Meetings2025 {
     },
     circuit: {
       id: 'spa',
+      imageUrl: '/circuit-images/spa.avif',
       thirdPartyIds: {
         jolpi: 'spa',
       },
@@ -649,6 +674,7 @@ export class Meetings2025 {
         time: new Date('2025-07-27T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly hungary: Meeting = {
@@ -664,6 +690,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'hungaroring',
       },
+      imageUrl: '/circuit-images/hungary.avif',
       name: 'Hungaroring',
       location: {
         lat: '47.5789',
@@ -699,6 +726,7 @@ export class Meetings2025 {
         time: new Date('2025-08-03T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly dutch: Meeting = {
@@ -714,6 +742,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'zandvoort',
       },
+      imageUrl: '/circuit-images/dutch.avif',
       name: 'Circuit Park Zandvoort',
       location: {
         lat: '52.3888',
@@ -749,6 +778,7 @@ export class Meetings2025 {
         time: new Date('2025-08-31T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly italian: Meeting = {
@@ -764,6 +794,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'monza',
       },
+      imageUrl: '/circuit-images/italian.avif',
       name: 'Autodromo Nazionale di Monza',
       location: {
         lat: '45.6156',
@@ -799,6 +830,7 @@ export class Meetings2025 {
         time: new Date('2025-09-07T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly azerbaijan: Meeting = {
@@ -814,6 +846,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'baku',
       },
+      imageUrl: '/circuit-images/azerbaijan.avif',
       name: 'Baku City Circuit',
       location: {
         lat: '40.3725',
@@ -849,6 +882,7 @@ export class Meetings2025 {
         time: new Date('2025-09-21T11:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly singapore: Meeting = {
@@ -864,6 +898,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'marina_bay',
       },
+      imageUrl: '/circuit-images/singapore.avif',
       name: 'Marina Bay Street Circuit',
       location: {
         lat: '1.2914',
@@ -899,6 +934,7 @@ export class Meetings2025 {
         time: new Date('2025-10-05T12:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly unitedStates: Meeting = {
@@ -914,6 +950,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'americas',
       },
+      imageUrl: '/circuit-images/united_states.avif',
       name: 'Circuit of the Americas',
       location: {
         lat: '30.1328',
@@ -949,6 +986,7 @@ export class Meetings2025 {
         time: new Date('2025-10-19T19:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly mexico: Meeting = {
@@ -964,6 +1002,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'rodriguez',
       },
+      imageUrl: '/circuit-images/mexico.avif',
       name: 'Autódromo Hermanos Rodríguez',
       location: {
         lat: '19.4042',
@@ -999,6 +1038,7 @@ export class Meetings2025 {
         time: new Date('2025-10-26T20:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly brazil: Meeting = {
@@ -1014,6 +1054,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'interlagos',
       },
+      imageUrl: '/circuit-images/brazil.avif',
       name: 'Autódromo José Carlos Pace',
       location: {
         lat: '-23.7036',
@@ -1049,6 +1090,7 @@ export class Meetings2025 {
         time: new Date('2025-11-09T17:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly lasVegas: Meeting = {
@@ -1064,6 +1106,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'vegas',
       },
+      imageUrl: '/circuit-images/las_vegas.avif',
       name: 'Las Vegas Strip Street Circuit',
       location: {
         lat: '36.1147',
@@ -1099,6 +1142,7 @@ export class Meetings2025 {
         time: new Date('2025-11-23T04:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly qatar: Meeting = {
@@ -1114,6 +1158,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'losail',
       },
+      imageUrl: '/circuit-images/qatar.avif',
       name: 'Losail International Circuit',
       location: {
         lat: '25.49',
@@ -1149,6 +1194,7 @@ export class Meetings2025 {
         time: new Date('2025-11-30T16:00:00Z'),
       },
     ],
+    year: '2025',
   };
 
   public static readonly abuDhabi: Meeting = {
@@ -1164,6 +1210,7 @@ export class Meetings2025 {
       thirdPartyIds: {
         jolpi: 'yas_marina',
       },
+      imageUrl: '/circuit-images/abu_dhabi.avif',
       name: 'Yas Marina Circuit',
       location: {
         lat: '24.4672',
@@ -1199,6 +1246,7 @@ export class Meetings2025 {
         time: new Date('2025-12-07T13:00:00Z'),
       },
     ],
+    year: '2025',
   };
 }
 

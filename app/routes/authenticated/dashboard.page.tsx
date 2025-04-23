@@ -3,6 +3,10 @@ import type { Route } from './+types/dashboard.page';
 import { SessionService } from '~/server/services/session.service';
 import { Link, redirect } from 'react-router';
 import { LeagueCollection } from '~/server/database/collections/league.collection';
+import { NextRaceComponent } from '~/components/dashboard/next-race.component';
+import { Meetings2025 } from '~/server/static-data/2025/meetings.static';
+import { SeasonService } from '~/server/services/season.service.server';
+import moment from 'moment';
 
 export function meta() {
   return [{ title: 'Formula Predictor - Home' }, { name: 'description', content: 'Formula Predictor Home page' }];
@@ -13,33 +17,37 @@ export const loader = async (params: Route.LoaderArgs) => {
   if (!userId) throw redirect('/login');
 
   const leagues = await LeagueCollection.getAllForUser(userId);
+
+  const now = moment();
+  const year = now.year().toString();
+
+  const seasonService = SeasonService.year(year);
+  if (!seasonService) {
+    throw new Error(`No season service found for year ${year}`);
+  }
+
+  // find meeting that falls is after current time now
+  const meeting = seasonService.meetings.find((meeting) => {
+    const meetingDate = moment(meeting.endDate);
+    return meetingDate.isAfter(now);
+  });
+
+  if (!meeting) {
+    throw new Error(`No meeting found for year ${year}`);
+  }
+
   return {
     leagues,
+    meeting,
   };
 };
 
 export default function DashboardPage(params: Route.ComponentProps) {
-  const { leagues } = params.loaderData;
+  const { leagues, meeting } = params.loaderData;
 
   return (
     <>
-      <section id="upcoming-race" className="bg-[#1A1D23] rounded-xl p-6 @container/next">
-        <h2 className="text-2xl text-white mb-6">Next Race: Monaco Grand Prix</h2>
-        <div className="grid col-span-full grid-cols-1 @[450px]:grid-cols-3! gap-6">
-          <div className="bg-[#262931] p-4 rounded-lg">
-            <p className="text-neutral-400 mb-2">Date</p>
-            <p className="text-white">May 26, 2025</p>
-          </div>
-          <div className="bg-[#262931] p-4 rounded-lg">
-            <p className="text-neutral-400 mb-2">Time Until</p>
-            <p className="text-white">2D : 15H : 30M</p>
-          </div>
-          <div className="bg-[#262931] p-4 rounded-lg">
-            <p className="text-neutral-400 mb-2">Your Prediction Status</p>
-            <p className="text-neutral-500">Pending</p>
-          </div>
-        </div>
-      </section>
+      <NextRaceComponent meeting={meeting} />
 
       <section id="my-leagues" className="bg-[#1A1D23] rounded-xl p-6">
         <div className="flex justify-between items-center mb-6">

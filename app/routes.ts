@@ -18,6 +18,7 @@ export default [
     layout('routes/authenticated/auth-guard.layout.tsx', { id: 'auth-layout' }, [
       layout('routes/authenticated/dashboard.layout.tsx', [
         route('/dashboard', 'routes/authenticated/dashboard.page.tsx'),
+        route('/predict/:year/:meetingId', 'routes/authenticated/predict.page.tsx'),
         route('/leagues', 'routes/authenticated/league/index.page.tsx'),
         ...prefix('/league', [
           route('/create', 'routes/authenticated/league/create.page.tsx'),

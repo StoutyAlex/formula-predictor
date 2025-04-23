@@ -24,7 +24,7 @@ export interface StaticConstructor {
 }
 
 export interface Constructor extends Omit<StaticConstructor, 'drivers'> {
-  drivers: Driver[],
+  drivers: Driver[];
 }
 
 export interface Driver {
@@ -70,12 +70,14 @@ export interface Meeting {
   startDate: Date;
   endDate: Date;
   sessions: Session[];
+  year: string;
 }
 
 export interface Circuit {
   id: string;
   thirdPartyIds: ThirdPartyIds;
   name: string;
+  imageUrl: string;
   location: {
     lat: string;
     long: string;
