@@ -27,6 +27,8 @@
 
   --color-btn-primary: #262931;
   --color-btn-primary-hover: #2d3039;
+
+  --breakpoint-xs: 400px;
 }
 
 html {

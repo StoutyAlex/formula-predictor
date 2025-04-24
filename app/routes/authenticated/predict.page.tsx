@@ -7,6 +7,7 @@ import { MeetingType, type Driver } from '~/server/static-data/static.types';
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
 import { DriverSelectList } from '~/components/driver-select-list.component';
 import { FaListOl, FaMedal, FaTrophy } from 'react-icons/fa';
+import { FaStopwatch } from 'react-icons/fa6';
 
 interface Countdown {
   days: number;
@@ -26,6 +27,7 @@ interface PositionPrediction {
   8: Driver;
   9: Driver;
   10: Driver;
+  fastestLap: Driver;
 }
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
@@ -114,31 +116,32 @@ export default function PredictPage(params: Route.ComponentProps) {
     };
   }, [time]);
 
-  const onPositionChange = (driver: Driver, position: number) => {
-    if (driver) {
-      setPositionedDrivers((prev) => ({
-        ...prev,
-        [position]: driver,
-      }));
-    }
+  const onPositionChange = (driver: Driver | undefined, position: keyof PositionPrediction) => {
+    setPositionedDrivers((prev) => ({
+      ...prev,
+      [position]: driver,
+    }));
   };
 
   const unPositionedDrivers = useMemo(() => {
     const unPositionedDrivers = drivers.filter((driver) => {
-      const positioned = Object.values(positionedDrivers || []);
+      const positionedExceptFastestLap = { ...positionedDrivers };
+      delete positionedExceptFastestLap?.fastestLap;
+      const positioned = Object.values(positionedExceptFastestLap || []);
       return !positioned.some((positionedDriver) => positionedDriver?.id === driver.id);
     });
 
     return unPositionedDrivers;
   }, [positionedDrivers, drivers]);
 
+  // TODO: Only 1 col in predictions section on small screens
   return (
     <div className="container">
       <div className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5" id="prediction-form">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl text-white font-bold">{meeting.name} Predictions</h1>
-            <p className="text-neutral-400">
+        <div className="flex items-center justify-between mb-8 lg:flex-row flex-col gap-4">
+          <div className="flex flex-col w-full lg:w-auto">
+            <h1 className="text-3xl text-white font-bold w-full">{meeting.name}</h1>
+            <p className="text-neutral-400 w-full">
               Make your predictions before {formattedTime} {formattedTimeWithZone}
             </p>
           </div>
@@ -150,13 +153,14 @@ export default function PredictPage(params: Route.ComponentProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-8" id="main-predictions">
             <div className="bg-[#262931] p-6 rounded-xl border border-white/5" id="race-winner">
               <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-4">
                 <FaTrophy className="text-yellow-500" /> <span>Race Winner</span>
               </h3>
               <DriverSelectList
+                constructors={constructors}
                 selected={positionedDrivers?.[1]}
                 placeholder="Race Winner - Select Driver"
                 values={unPositionedDrivers}
@@ -170,18 +174,21 @@ export default function PredictPage(params: Route.ComponentProps) {
               </h3>
               <div className="space-y-4">
                 <DriverSelectList
+                  constructors={constructors}
                   selected={positionedDrivers?.[1]}
                   placeholder="P1 - Select Driver"
                   values={unPositionedDrivers}
                   onChange={(driver) => onPositionChange(driver, 1)}
                 />
                 <DriverSelectList
+                  constructors={constructors}
                   selected={positionedDrivers?.[2]}
                   placeholder="P2 - Select Driver"
                   values={unPositionedDrivers}
                   onChange={(driver) => onPositionChange(driver, 2)}
                 />
                 <DriverSelectList
+                  constructors={constructors}
                   selected={positionedDrivers?.[3]}
                   placeholder="P3 - Select Driver"
                   values={unPositionedDrivers}
@@ -191,14 +198,16 @@ export default function PredictPage(params: Route.ComponentProps) {
             </div>
 
             <div className="bg-[#262931] p-6 rounded-xl border border-white/5" id="constructor-points">
-              <h3 className="text-white text-xl font-bold mb-4">Best Constructor Points</h3>
-              <select className="w-full bg-[#1A1D23] text-white p-4 rounded-xl border border-white/5">
-                <option>Select Constructor</option>
-                <option>Red Bull Racing</option>
-                <option>Mercedes</option>
-                <option>Ferrari</option>
-                <option>McLaren</option>
-              </select>
+              <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-4">
+                <FaStopwatch className="text-purple-500" /> <span>Fastest Lap</span>
+              </h3>
+              <DriverSelectList
+                constructors={constructors}
+                selected={positionedDrivers?.fastestLap}
+                placeholder="Fastest Lap - Select Driver"
+                values={drivers}
+                onChange={(driver) => onPositionChange(driver, 'fastestLap')}
+              />
             </div>
           </div>
 
@@ -210,61 +219,54 @@ export default function PredictPage(params: Route.ComponentProps) {
               <div className="space-y-3">
                 <div className="grid grid-cols-1 gap-2">
                   <DriverSelectList
+                    constructors={constructors}
                     selected={positionedDrivers?.[4]}
                     placeholder="P4 - Select Driver"
                     values={unPositionedDrivers}
                     onChange={(driver) => onPositionChange(driver, 4)}
                   />
                   <DriverSelectList
+                    constructors={constructors}
                     selected={positionedDrivers?.[5]}
                     placeholder="P5 - Select Driver"
                     values={unPositionedDrivers}
                     onChange={(driver) => onPositionChange(driver, 5)}
                   />
                   <DriverSelectList
+                    constructors={constructors}
                     selected={positionedDrivers?.[6]}
                     placeholder="P6 - Select Driver"
                     values={unPositionedDrivers}
                     onChange={(driver) => onPositionChange(driver, 6)}
                   />
                   <DriverSelectList
+                    constructors={constructors}
                     selected={positionedDrivers?.[7]}
                     placeholder="P7 - Select Driver"
                     values={unPositionedDrivers}
                     onChange={(driver) => onPositionChange(driver, 7)}
                   />
                   <DriverSelectList
+                    constructors={constructors}
                     selected={positionedDrivers?.[8]}
                     placeholder="P8 - Select Driver"
                     values={unPositionedDrivers}
                     onChange={(driver) => onPositionChange(driver, 8)}
                   />
                   <DriverSelectList
+                    constructors={constructors}
                     selected={positionedDrivers?.[9]}
                     placeholder="P9 - Select Driver"
                     values={unPositionedDrivers}
                     onChange={(driver) => onPositionChange(driver, 9)}
                   />
                   <DriverSelectList
+                    constructors={constructors}
                     selected={positionedDrivers?.[10]}
                     placeholder="P10 - Select Driver"
                     values={unPositionedDrivers}
                     onChange={(driver) => onPositionChange(driver, 10)}
                   />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#262931] p-6 rounded-xl border border-white/5" id="bonus-predictions">
-              <h3 className="text-white text-xl font-bold mb-4">Bonus Predictions</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <input type="checkbox" className="w-5 h-5 rounded bg-[#1A1D23] border-white/5" />
-                  <span className="text-white">Safety Car Deployment</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <input type="checkbox" className="w-5 h-5 rounded bg-[#1A1D23] border-white/5" />
-                  <span className="text-white">Rain During Race</span>
                 </div>
               </div>
             </div>

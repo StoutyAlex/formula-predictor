@@ -21,8 +21,8 @@ export default function HomeDashboardLayout() {
   return (
     <div className="min-h-screen flex" id="home-container">
       <div className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          <aside className="col-span-1 md:col-span-4 lg:col-span-3" id="sidebar">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-0 md:gap-6">
+          <aside className="col-span-1 md:col-span-4 lg:col-span-3 hidden md:block" id="sidebar">
             <div className="bg-[#1A1D23] rounded-xl p-6 space-y-4">
               <div className="flex items-center gap-4 pb-4 border-b border-neutral-800">
                 <img src={'https://via.placeholder.com/150'} alt="User Avatar" className="w-16 h-16 rounded-full" />
