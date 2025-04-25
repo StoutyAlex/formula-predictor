@@ -236,6 +236,11 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
                       placeholder="Enter your password"
                     />
                   </div>
+                  {fieldErrors.password && (
+                    <span className="flex items-center gap-2">
+                      <p className="text-red-600">{fieldErrors.password}</p>
+                    </span>
+                  )}
                 </div>
               </div>
 

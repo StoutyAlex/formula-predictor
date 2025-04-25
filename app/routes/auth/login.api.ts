@@ -10,7 +10,7 @@ import { UserCollection } from '~/server/database/collections/user.collection';
 export const loginUserSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  redirectTo: z.string().optional(),
+  redirectTo: z.string().or(z.null()).optional(),
 });
 
 export type LoginUserData = z.infer<typeof loginUserSchema>;

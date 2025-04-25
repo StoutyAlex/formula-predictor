@@ -11,17 +11,10 @@ export const registerUserSchema = z.object({
   email: z.string().email(),
   password: z
     .string()
-    .min(8)
-    .pipe(
-      z
-        .string()
-        .regex(
-          /(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/,
-          'Password must be minimum length of 8 and contain at least one special character'
-        )
-    ),
+    .min(8, 'Password must be minimum length of 8')
+    .pipe(z.string().regex(/(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/, 'Password mustcontain at least one special character')),
   username: z.string().min(3),
-  redirectTo: z.string().optional(),
+  redirectTo: z.string().or(z.null()).optional(),
 });
 
 export type RegisterUserData = z.infer<typeof registerUserSchema>;
@@ -33,7 +26,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { data: registerUserData, success, error } = registerUserSchema.safeParse(json);
   if (!success) {
-    console.error('Error parsing register user data:', error);
     return FormFieldErrorResponse.fromZodError(error);
   }
 
