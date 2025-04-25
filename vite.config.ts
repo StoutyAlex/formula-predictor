@@ -8,5 +8,11 @@ export default defineConfig({
   server: {
     allowedHosts: ['local.formula-predictor', 'formula-predictor.local', 'witty-paths-warn.loca.lt'],
   },
-  plugins: [reactRouterDevTools(), tailwindcss(), reactRouter(), tsconfigPaths()],
+  plugins: [
+    // TODO: only dev tools on dev
+    //reactRouterDevTools(),
+    tailwindcss(),
+    reactRouter(),
+    tsconfigPaths(),
+  ],
 });
