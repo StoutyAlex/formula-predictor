@@ -15,20 +15,24 @@ export const loader = async (params: Route.LoaderArgs) => {
 
   const leagueId = params.params.leagueId;
   if (!leagueId) {
-    return redirect('/leagues');
+    console.error('No League ID provided');
+    return redirect('/dashboard');
   }
 
   const league = await LeagueCollection.findById(leagueId);
   if (!league) {
-    return redirect('/leagues');
+    console.error('Could not find league with id:', leagueId);
+    return redirect('/dashboard');
   }
 
-  if (!league.members.includes(userId)) {
+  const leagueJson = league.toJSON();
+  if (!leagueJson.members.includes(userId)) {
+    console.error('You are not a member of this league');
     return redirect('/leagues');
   }
 
   const members = await Promise.all(
-    league.members.map(async (memberId) => {
+    leagueJson.members.map(async (memberId) => {
       const member = await UserCollection.findById(memberId);
       if (!member) {
         return null;
@@ -42,16 +46,17 @@ export const loader = async (params: Route.LoaderArgs) => {
   );
 
   if (members.some((member) => member === null)) {
-    return redirect('/leagues');
+    console.error('One or more members not found');
+    return redirect('/dashboard');
   }
 
   const owner = members.find((member) => member?.id === league.owner);
   if (!owner) {
-    return redirect('/leagues');
+    return redirect('/dashboard');
   }
 
   return {
-    league: league.toJSON(),
+    league: leagueJson,
     owner,
     members,
   };
