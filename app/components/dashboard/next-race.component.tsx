@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { FaFlagCheckered } from 'react-icons/fa';
-import { FaCircleCheck, FaClock, FaInfo } from 'react-icons/fa6';
+import { FaCircleCheck, FaClock } from 'react-icons/fa6';
 import { useNavigate } from 'react-router';
 import { tv } from 'tailwind-variants';
 import type { Prediction } from '~/server/database/schemas/prediction.schema';

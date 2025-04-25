@@ -1,11 +1,12 @@
 import { TextInput as FBTextInput, Button } from 'flowbite-react';
+import type { ChangeEvent } from 'node_modules/@types/react/ts5.0';
 
 export interface TextInputProps {
   name: string;
   defaultValue?: string;
   placeholder?: string;
   type?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TextInput = (props: TextInputProps) => {

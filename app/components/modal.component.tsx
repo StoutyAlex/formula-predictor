@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { type ReactNode } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 interface ModalProps {
@@ -7,7 +7,7 @@ interface ModalProps {
   allowBackdropClose?: boolean;
   onClose?: () => void;
   title: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export const Modal = (props: ModalProps) => {

@@ -1,7 +1,8 @@
 import type { SeasonString } from '~/types/f1.types';
 import type { Route } from './+types/constructors.page';
 import { FormulaData } from '~/server/static-data/static.data';
-import { redirect, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
+import type { ChangeEvent } from 'react';
 
 export const loader = async ({ params, request }: Route.LoaderArgs) => {
   const url = new URL(request.url);
@@ -25,7 +26,7 @@ export default function ConstructorsPage(props: Route.ComponentProps) {
   const navigate = useNavigate();
   const { constructors, meetings } = props.loaderData;
 
-  const onSelectMeeting = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSelectMeeting = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedMeetingId = event.target.value;
     navigate({
       pathname: window.location.pathname,
@@ -94,7 +95,9 @@ export default function ConstructorsPage(props: Route.ComponentProps) {
                     {constructor.location}, {constructor.country.name}
                   </td>
                   <td className="px-6 py-4">{constructor.principal}</td>
-                  <td className="px-6 py-4">{constructor.drivers.map((driver) => `${driver.firstName} ${driver.lastName}`).join(', ')}</td>
+                  <td className="px-6 py-4">
+                    {constructor.drivers.map((driver) => `${driver.firstName} ${driver.lastName}`).join(', ')}
+                  </td>
                 </tr>
               ))}
             </tbody>

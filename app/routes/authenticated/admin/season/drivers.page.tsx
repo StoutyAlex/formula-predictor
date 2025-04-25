@@ -1,5 +1,5 @@
 import { getCountryCode } from 'countries-list';
-import { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import type { LoaderFunctionArgs } from 'react-router';
 import { useFetcher, useLoaderData } from 'react-router';
@@ -40,7 +40,7 @@ export default function ConstructorsPage() {
     setAddDriverModalOpen(true);
   };
 
-  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value.toLowerCase();
 
     if (!searchTerm) {

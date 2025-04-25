@@ -1,5 +1,5 @@
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
-import type { EventHandler, MouseEventHandler } from 'react';
+import type { CSSProperties, MouseEventHandler } from 'react';
 import { FaXmark } from 'react-icons/fa6';
 import type { Constructor, Driver } from '~/server/static-data/static.types';
 
@@ -20,7 +20,7 @@ export const DriverSelectList = (props: DriverListProps) => {
       <ListboxOption
         key={person.id}
         value={person}
-        style={{ '--hoverColour': constructor?.hexColor } as React.CSSProperties}
+        style={{ '--hoverColour': constructor?.hexColor } as CSSProperties}
         className="group relative cursor-default pr-2 pl-3 text-whtite select-none py-1.5 data-focus:bg-[var(--hoverColour)]/10 data-focus:text-white data-focus:outline-hidden"
       >
         <div className="flex items-center">

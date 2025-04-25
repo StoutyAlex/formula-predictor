@@ -5,7 +5,7 @@ import { Button } from '~/components/button.component';
 import { FormFieldErrorResponse } from '~/lib/errors/form-field-error.response';
 import { SessionService } from '~/server/services/session.service';
 import type { Route } from './+types/create.page';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { LeagueCollection } from '~/server/database/collections/league.collection';
 import { LeaguePrivacy } from '~/server/database/schemas/league.schema';
 import { customAlphabet } from 'nanoid';
@@ -95,7 +95,7 @@ export default function CreateLeaguePage() {
     navigate(-1);
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());

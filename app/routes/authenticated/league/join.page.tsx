@@ -2,7 +2,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { redirect, useFetcher, useNavigate } from 'react-router';
 import { Button } from '~/components/button.component';
 import type { Route } from './+types/join.page';
-import { useState } from 'react';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { FormErrorResponse } from '~/lib/errors/form-error.response';
 import { LeagueCollection } from '~/server/database/collections/league.collection';
 import { SessionService } from '~/server/services/session.service';
@@ -14,7 +14,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   const userId = userSession.id;
-  
+
   const json = await request.json();
   const { leagueCode } = json;
 
@@ -59,17 +59,17 @@ export default function JoinLeaguePage() {
   const [codePart1, setCodePart1] = useState<string>();
   const [codePart2, setCodePart2] = useState<string>();
 
-  const handleCodePart1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCodePart1Change = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setCodePart1(value);
   };
 
-  const handleCodePart2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCodePart2Change = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setCodePart2(value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const payload = {
@@ -124,10 +124,9 @@ export default function JoinLeaguePage() {
 
             <div className="flex flex-col items-center gap-4">
               <Button type="submit" variant="submit" value="Join League" className="w-full px-6 py-3 justify-center" />
-
-              <button type="button" className="text-neutral-400 hover:text-white">
+              {/* <button type="button" className="text-neutral-400 hover:text-white">
                 Don't have a code? Create your own league
-              </button>
+              </button> */}
             </div>
           </div>
         </form>
