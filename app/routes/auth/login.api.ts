@@ -10,6 +10,7 @@ import { UserCollection } from '~/server/database/collections/user.collection';
 export const loginUserSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
+  redirectTo: z.string().optional(),
 });
 
 export type LoginUserData = z.infer<typeof loginUserSchema>;
@@ -23,7 +24,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return FormFieldErrorResponse.fromZodError(error);
   }
 
-  const { email, password } = loginUserData;
+  const { email, password, redirectTo } = loginUserData;
 
   const user = await UserCollection.findByEmail(email);
   if (!user) {
@@ -38,6 +39,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const session = await SessionService.create(request, user);
+
+  if (redirectTo) {
+    return redirect(redirectTo, {
+      headers: {
+        'Set-Cookie': await commitSession(session),
+      },
+    });
+  }
 
   return redirect('/dashboard', {
     headers: {

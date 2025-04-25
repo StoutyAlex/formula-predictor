@@ -21,6 +21,7 @@ export const registerUserSchema = z.object({
         )
     ),
   username: z.string().min(3),
+  redirectTo: z.string().optional(),
 });
 
 export type RegisterUserData = z.infer<typeof registerUserSchema>;
@@ -36,7 +37,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return FormFieldErrorResponse.fromZodError(error);
   }
 
-  const { email, username, password } = registerUserData;
+  const { email, username, password, redirectTo } = registerUserData;
 
   const [existsEmail, existsUsername] = await Promise.all([
     UserCollection.exists({ email: registerUserData.email }),
@@ -61,6 +62,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }).save();
 
   const session = await SessionService.create(request, user);
+
+  if (redirectTo) {
+    return redirect(redirectTo, {
+      headers: {
+        'Set-Cookie': await commitSession(session),
+      },
+    });
+  }
 
   return redirect('/', {
     headers: {

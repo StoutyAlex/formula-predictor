@@ -1,11 +1,15 @@
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { FaFlagCheckered } from 'react-icons/fa';
+import { FaCircleCheck, FaClock, FaInfo } from 'react-icons/fa6';
 import { useNavigate } from 'react-router';
+import { tv } from 'tailwind-variants';
+import type { Prediction } from '~/server/database/schemas/prediction.schema';
 import type { Meeting } from '~/server/static-data/static.types';
 
 interface NextRaceComponentProps {
   meeting: Meeting;
+  prediction?: Prediction;
 }
 
 interface Countdown {
@@ -13,6 +17,17 @@ interface Countdown {
   hours: number;
   minutes: number;
 }
+
+const ctaVariants = tv({
+  base: 'bg-gradient-to-r p-6 rounded-xl shadow-lg cursor-pointer transition-all duration-200',
+  variants: {
+    variant: {
+      create: 'from-green-500/50 to-green-600/70 hover:to-green-700/90 shadow-green-500/20',
+      edit: 'from-blue-500/50 to-blue-600/70 hover:to-blue-700/90 shadow-blue-500/20',
+      locked: 'from-red-500/50 to-red-600/70 hover:to-red-700/90 shadow-red-500/20',
+    },
+  },
+});
 
 export const NextRaceComponent = (props: NextRaceComponentProps) => {
   const { meeting } = props;
@@ -45,9 +60,23 @@ export const NextRaceComponent = (props: NextRaceComponentProps) => {
     return () => clearInterval(timer);
   }, [meeting.startDate]);
 
+  console.log('prediction:', props.prediction);
+
   const handlePredict = () => {
     navigate(`/predict/${meeting.year}/${meeting.id}`);
   };
+
+  const ctaClassName = ctaVariants({
+    variant: props.prediction ? 'edit' : 'create',
+  });
+
+  const ctaButton = (
+    <div onClick={handlePredict} role="button" className={ctaClassName}>
+      <button className="text-white w-full text-lg font-bold cursor-pointer">
+        {props.prediction ? 'Edit Prediction' : 'Make Prediction'}
+      </button>
+    </div>
+  );
 
   return (
     <section id="upcoming-race" className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5 relative overflow-hidden">
@@ -76,18 +105,19 @@ export const NextRaceComponent = (props: NextRaceComponentProps) => {
           </div>
           <div className="bg-[#262931] p-6 rounded-xl border border-white/5">
             <p className="text-neutral-400 mb-2 text-sm">Your Prediction Status</p>
-            <p className="text-yellow-500 text-lg font-bold flex items-center gap-2">
-              <i className="fa-solid fa-clock"></i>
-              Pending
-            </p>
+            {props.prediction ? (
+              <div className="flex items-center gap-2">
+                <FaCircleCheck className="text-green-500" />
+                <p className="text-green-500 text-lg font-bold">Submitted</p>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <FaClock className="text-yellow-500" />
+                <p className="text-yellow-500 text-lg font-bold">Pending</p>
+              </div>
+            )}
           </div>
-          <div
-            onClick={handlePredict}
-            role="button"
-            className="bg-gradient-to-r from-red-500/50 to-red-600/70 p-6 rounded-xl shadow-lg shadow-red-500/20 cursor-pointer hover:to-red-700/90 transition-all duration-200"
-          >
-            <button className="text-white w-full text-lg font-bold cursor-pointer">Make Prediction</button>
-          </div>
+          {ctaButton}
         </div>
       </div>
     </section>

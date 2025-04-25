@@ -5,6 +5,7 @@ import { UserCollection } from '~/server/database/collections/user.collection';
 import { Button } from '~/components/button.component';
 import moment from 'moment';
 import { SessionService } from '~/server/services/session.service';
+import { redirectToLogin } from '~/server/helpers';
 
 const url = 'https://storage.googleapis.com/uxpilot-auth.appspot.com/2509bb5eca-f792921744e1e3e79484.png';
 
@@ -70,8 +71,7 @@ export const action = async (params: Route.ActionArgs) => {
 
   const userSession = await SessionService.isValid(request);
   if (!userSession) {
-    // TODO: Add redirect
-    return redirect('/login');
+    return redirectToLogin(new URL(params.request.url).pathname);
   }
 
   const league = await LeagueCollection.findById(leagueId);
@@ -95,7 +95,7 @@ export const action = async (params: Route.ActionArgs) => {
 export default function LeagueInvitePage({ loaderData }: Route.ComponentProps) {
   const { league, owner } = loaderData;
 
-  const { submit: joinLeague, data } = useFetcher();
+  const { submit: joinLeague } = useFetcher();
 
   const handleJoinLeague = () => {
     console.log('Joining league', league.id);
@@ -161,7 +161,6 @@ export default function LeagueInvitePage({ loaderData }: Route.ComponentProps) {
 
               <form method="POST" onSubmit={handleJoinLeague} className="space-y-4">
                 <Button value="Join League Now" type="submit" variant="submit" className="w-full py-3 justify-center" />
-                {data && JSON.stringify(data, null, 2)}
               </form>
             </div>
           </div>

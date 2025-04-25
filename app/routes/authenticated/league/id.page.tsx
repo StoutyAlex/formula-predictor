@@ -3,7 +3,9 @@ import type { Route } from './+types/id.page';
 import { SessionService } from '~/server/services/session.service';
 import { LeagueCollection } from '~/server/database/collections/league.collection';
 import { UserCollection } from '~/server/database/collections/user.collection';
-import { League } from '~/server/database/schemas/league.schema';
+import { useCallback } from 'react';
+import { FaCrown, FaUsers } from 'react-icons/fa6';
+import { Button } from '~/components/button.component';
 
 export const loader = async (params: Route.LoaderArgs) => {
   const userId = await SessionService.getUserId(params.request);
@@ -48,8 +50,6 @@ export const loader = async (params: Route.LoaderArgs) => {
     return redirect('/leagues');
   }
 
-
-
   return {
     league: league.toJSON(),
     owner,
@@ -60,6 +60,13 @@ export const loader = async (params: Route.LoaderArgs) => {
 export default function LeaguePage(params: Route.ComponentProps) {
   const { league, owner } = params.loaderData;
 
+  const generateInviteLink = useCallback(async () => {
+    const url = new URL(window.location.protocol + '//' + window.location.host);
+    url.pathname = `/invite/league/${league._id}`;
+    await navigator.clipboard.writeText(url.href);
+    alert('Invite link copied to clipboard!');
+  }, []);
+
   return (
     <main className="col-span-9 space-y-8" id="main-content">
       <section id="league-header" className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5">
@@ -69,14 +76,11 @@ export default function LeaguePage(params: Route.ComponentProps) {
             <p className="text-neutral-400 mt-2">Created by {owner.username} • Started May 1, 2025</p>
           </div>
           <div className="flex gap-4">
-            <button className="bg-[#262931] text-white px-6 py-3 rounded-xl border border-white/5 hover:bg-[#2d3039] transition-all duration-300">
+            {/* <button className="bg-[#262931] text-white px-6 py-3 rounded-xl border border-white/5 hover:bg-[#2d3039] transition-all duration-300">
               <i className="fa-solid fa-share-nodes mr-2"></i>
               Share
-            </button>
-            <button className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-xl shadow-lg shadow-red-500/20">
-              <i className="fa-solid fa-users mr-2"></i>
-              Invite Members
-            </button>
+            </button> */}
+            <Button type="submit" variant="submit" value="Invite Members" icon={FaUsers} onClick={generateInviteLink} />
           </div>
         </div>
       </section>
@@ -108,7 +112,7 @@ export default function LeaguePage(params: Route.ComponentProps) {
           <h3 className="text-xl text-white font-bold mb-6">Latest Achievement</h3>
           <div className="bg-[#262931] p-6 rounded-xl border border-white/5 flex items-center gap-6">
             <div className="bg-yellow-500/20 p-4 rounded-xl">
-              <i className="fa-solid fa-crown text-4xl text-yellow-500"></i>
+              <FaCrown className="text-yellow-500 text-4xl" />
             </div>
             <div>
               <h4 className="text-white font-bold text-lg">New Race Winner</h4>
@@ -131,7 +135,7 @@ export default function LeaguePage(params: Route.ComponentProps) {
                   alt="Member"
                   className="w-10 h-10 rounded-full"
                 />
-                <span className="text-white">Michael Chen</span>
+                <span className="text-white">Michael Shoemaker</span>
               </div>
               <span className="text-red-500 font-bold">920 pts</span>
             </div>
@@ -143,7 +147,7 @@ export default function LeaguePage(params: Route.ComponentProps) {
                   alt="Member"
                   className="w-10 h-10 rounded-full"
                 />
-                <span className="text-white">Sarah Wilson</span>
+                <span className="text-white">Max Verstrapon</span>
               </div>
               <span className="text-red-500 font-bold">875 pts</span>
             </div>

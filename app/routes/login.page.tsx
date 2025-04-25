@@ -70,11 +70,16 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
       return;
     }
 
-    submit(data, {
-      method: 'post',
-      action: '/auth/login',
-      encType: 'application/json',
-    });
+    const url = new URL(window.location.href).searchParams.get('redirectTo');
+
+    submit(
+      { ...data, redirectTo: url },
+      {
+        method: 'post',
+        action: '/auth/login',
+        encType: 'application/json',
+      }
+    );
   }, []);
 
   const handleRegister = useCallback((event: FormEvent<HTMLFormElement>) => {
@@ -93,11 +98,16 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
       return;
     }
 
-    submit(data, {
-      method: 'post',
-      action: '/auth/register',
-      encType: 'application/json',
-    });
+    const url = new URL(window.location.href).searchParams.get('redirectTo');
+
+    submit(
+      { ...data, redirectTo: url },
+      {
+        method: 'post',
+        action: '/auth/register',
+        encType: 'application/json',
+      }
+    );
   }, []);
 
   const handleSubmit = useCallback(

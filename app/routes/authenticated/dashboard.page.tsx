@@ -4,9 +4,9 @@ import { SessionService } from '~/server/services/session.service';
 import { Link, redirect } from 'react-router';
 import { LeagueCollection } from '~/server/database/collections/league.collection';
 import { NextRaceComponent } from '~/components/dashboard/next-race.component';
-import { Meetings2025 } from '~/server/static-data/2025/meetings.static';
 import { SeasonService } from '~/server/services/season.service.server';
 import moment from 'moment';
+import { PredictionCollection } from '~/server/database/collections/prediction.schema';
 
 export function meta() {
   return [{ title: 'Formula Predictor - Home' }, { name: 'description', content: 'Formula Predictor Home page' }];
@@ -36,18 +36,25 @@ export const loader = async (params: Route.LoaderArgs) => {
     throw new Error(`No meeting found for year ${year}`);
   }
 
+  const predictions = await PredictionCollection.getAllForUserWithYear(userId, year);
+
   return {
     leagues,
     meeting,
+    predictions,
   };
 };
 
 export default function DashboardPage(params: Route.ComponentProps) {
-  const { leagues, meeting } = params.loaderData;
+  const { leagues, meeting, predictions } = params.loaderData;
+
+  const nextPrediction = predictions.find((prediction) => {
+    return prediction.meetingId === meeting.id;
+  });
 
   return (
     <>
-      <NextRaceComponent meeting={meeting} />
+      <NextRaceComponent meeting={meeting} prediction={nextPrediction} />
 
       <section id="my-leagues" className="bg-[#1A1D23] rounded-xl p-6">
         <div className="flex justify-between items-center mb-6">

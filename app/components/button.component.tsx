@@ -2,6 +2,8 @@ import type { IconType } from 'react-icons';
 import { Link } from 'react-router';
 import { twMerge } from 'tailwind-merge';
 import { tv } from 'tailwind-variants';
+import { Button as HButton } from '@headlessui/react';
+import { FaSpinner } from 'react-icons/fa6';
 
 interface ButtonProps {
   onClick?: () => void;
@@ -10,6 +12,7 @@ interface ButtonProps {
   variant?: 'list' | 'accent' | 'secondary' | 'listActive' | 'submit' | 'primary';
   linkTo?: string;
   active?: boolean;
+  loading?: boolean;
   center?: boolean;
   type?: 'button' | 'submit';
   className?: string;
@@ -30,6 +33,7 @@ const buttonVariants = tv({
     },
     state: {
       active: 'bg-accent hover:bg-accent-hover text-white',
+      disabled: 'bg-gray-400 text-gray-600 cursor-not-allowed',
     },
     alignment: {
       center: 'justify-center',
@@ -60,11 +64,22 @@ export const Button = (props: ButtonProps) => {
   const btnClass = twMerge(buttonClassName, props.className);
   const iconClass = twMerge(iconClassName);
 
+  const contentOpacity = props.loading ? 'opacity-0' : 'opacity-100';
+
   const button = (
-    <button onClick={props.onClick} className={btnClass} type={props.type || 'button'}>
-      {props.icon && <props.icon className={iconClass} />}
-      <span>{props.value}</span>
-    </button>
+    <HButton onClick={props.onClick} className={btnClass} type={props.type || 'button'}>
+      <div className="grid grid-cols-1">
+        <div className={`flex items-center gap-2 ${contentOpacity}`} style={{ gridArea: '1/1' }}>
+          {props.icon && <props.icon className={iconClass} />}
+          <span>{props.value}</span>
+        </div>
+        {props.loading && (
+          <div className="w-full justify-center align-middle" style={{ gridArea: '1/1' }}>
+            <FaSpinner className="animate-spin h-full justify-self-center text-xl" />
+          </div>
+        )}
+      </div>
+    </HButton>
   );
 
   if (props.linkTo) {
