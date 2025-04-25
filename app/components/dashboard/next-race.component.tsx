@@ -19,7 +19,7 @@ interface Countdown {
 }
 
 const ctaVariants = tv({
-  base: 'bg-gradient-to-r p-6 rounded-xl shadow-lg cursor-pointer transition-all duration-200',
+  base: 'bg-gradient-to-r rounded-xl shadow-lg cursor-pointer transition-all duration-200 h-15 lg:h-20 w-full',
   variants: {
     variant: {
       create: 'from-green-500/50 to-green-600/70 hover:to-green-700/90 shadow-green-500/20',
@@ -60,8 +60,6 @@ export const NextRaceComponent = (props: NextRaceComponentProps) => {
     return () => clearInterval(timer);
   }, [meeting.startDate]);
 
-  console.log('prediction:', props.prediction);
-
   const handlePredict = () => {
     navigate(`/predict/${meeting.year}/${meeting.id}`);
   };
@@ -72,14 +70,14 @@ export const NextRaceComponent = (props: NextRaceComponentProps) => {
 
   const ctaButton = (
     <div onClick={handlePredict} role="button" className={ctaClassName}>
-      <button className="text-white w-full text-lg font-bold cursor-pointer">
+      <button className="text-white w-full text-lg font-bold cursor-pointer h-full flex items-center justify-center">
         {props.prediction ? 'Edit Prediction' : 'Make Prediction'}
       </button>
     </div>
   );
 
   return (
-    <section id="upcoming-race" className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5 relative overflow-hidden">
+    <section id="upcoming-race" className="bg-[#1A1D23] rounded-2xl p-6 border border-white/5 relative overflow-hidden">
       <div className="absolute right-0 top-0 w-2/3 h-full opacity-10 z-10">
         <img
           className="w-full h-full object-cover pointer-events-none"
@@ -92,30 +90,36 @@ export const NextRaceComponent = (props: NextRaceComponentProps) => {
           <FaFlagCheckered className="text-red-500" />
           {meeting.name}
         </h2>
-        <div className="grid grid-cols-4 gap-6 z-20">
-          <div className="bg-[#262931] p-6 rounded-xl border border-white/5">
-            <p className="text-neutral-400 mb-2 text-sm">Date</p>
-            <p className="text-white text-lg font-bold">{formattedDate}</p>
+        <div className="grid lg:grid-cols-4 gap-4 lg:gap-6 z-20">
+          <div className="flex flex-col align-middle bg-[#262931] rounded-xl border border-white/5 h-15 lg:h-20">
+            <div className="justify-center px-4 flex flex-col h-full">
+              <p className="text-neutral-400 text-sm">Date</p>
+              <p className="text-white text-lg font-bold">{formattedDate}</p>
+            </div>
           </div>
-          <div className="bg-[#262931] p-6 rounded-xl border border-white/5">
-            <p className="text-neutral-400 mb-2 text-sm">Time Until</p>
-            <p className="text-white text-lg font-bold">
-              {countdown?.days}D : {countdown?.hours}H : {countdown?.minutes}M
-            </p>
+          <div className="flex flex-col align-middle bg-[#262931] rounded-xl border border-white/5 h-15 lg:h-20">
+            <div className="justify-center pl-4 flex flex-col h-full">
+              <p className="text-neutral-400 text-sm">Time Until</p>
+              <p className="text-white text-lg font-bold">
+                {countdown?.days}D : {countdown?.hours}H : {countdown?.minutes}M
+              </p>
+            </div>
           </div>
-          <div className="bg-[#262931] p-6 rounded-xl border border-white/5">
-            <p className="text-neutral-400 mb-2 text-sm">Your Prediction Status</p>
-            {props.prediction ? (
-              <div className="flex items-center gap-2">
-                <FaCircleCheck className="text-green-500" />
-                <p className="text-green-500 text-lg font-bold">Submitted</p>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <FaClock className="text-yellow-500" />
-                <p className="text-yellow-500 text-lg font-bold">Pending</p>
-              </div>
-            )}
+          <div className="flex flex-col align-middle bg-[#262931] rounded-xl border border-white/5 h-15 lg:h-20">
+            <div className="justify-center px-4 flex flex-col h-full">
+              <p className="text-neutral-400 text-sm">Prediction Status</p>
+              {props.prediction ? (
+                <div className="flex items-center gap-2">
+                  <FaCircleCheck className="text-green-500" />
+                  <p className="text-green-500 text-lg font-bold">Submitted</p>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <FaClock className="text-yellow-500" />
+                  <p className="text-yellow-500 text-lg font-bold">Pending</p>
+                </div>
+              )}
+            </div>
           </div>
           {ctaButton}
         </div>
