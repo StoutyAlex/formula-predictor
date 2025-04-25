@@ -72,7 +72,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
 
 export default function CreateLeaguePage() {
   const navigate = useNavigate();
-  const { submit, data } = useFetcher();
+  const { submit, data } = useFetcher<typeof action>();
 
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
@@ -86,7 +86,7 @@ export default function CreateLeaguePage() {
 
     if (data.success) {
       console.log('League created successfully:', data.league);
-      navigate(`/leagues/${data.league.slug}`);
+      navigate(`/league/${data.league._id}`);
       return;
     }
   }, [data]);

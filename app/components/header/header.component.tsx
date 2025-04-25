@@ -2,7 +2,7 @@ import { FaFlagCheckered } from 'react-icons/fa';
 import { Button } from '../button.component';
 import { twMerge } from 'flowbite-react/helpers/tailwind-merge';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import { Link, useLocation, useRouteLoaderData } from 'react-router';
+import { Link, useLocation, useNavigate, useRouteLoaderData } from 'react-router';
 import type { UserSession } from '~/server/services/session.service';
 
 interface HeaderProps {
@@ -16,14 +16,23 @@ export const HEADER_PX = '64px';
 export const Header = (props: HeaderProps) => {
   const { userSession } = props;
 
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const showPages = pathname === '/';
+
+  const onHeaderClick = () => {
+    if (showPages) {
+      navigate('/');
+    } else {
+      navigate('/dashboard');
+    }
+  };
 
   return (
     <header className={twMerge('bg-background-light h-16', props.className)} id="header">
       <div className="px-4 container mx-auto h-full">
         <nav className="flex items-center justify-between mx-auto h-full w-full">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={onHeaderClick}>
             <FaFlagCheckered className="text-2xl text-white" />
             <span className="text-xl font-bold text-white">Formula Predictor</span>
           </div>

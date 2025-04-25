@@ -73,14 +73,15 @@ export default function LeaguePage(params: Route.ComponentProps) {
   }, []);
 
   return (
-    <main className="col-span-9 space-y-8" id="main-content">
-      <section id="league-header" className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5">
-        <div className="flex justify-between items-center">
+    <main className="col-span-9 space-y-6" id="main-content">
+      <section id="league-header" className="bg-[#1A1D23] rounded-2xl p-6 border border-white/5">
+        <div className="flex justify-between lg:items-center sm:flex-row flex-col">
           <div>
             <h2 className="text-3xl text-white font-bold flex items-center gap-3">{league.name}</h2>
-            <p className="text-neutral-400 mt-2">Created by {owner.username} • Started May 1, 2025</p>
+            <p className="text-neutral-400 mt-2">Created by {owner.username}</p>
+            <p className='text-neutral-400'>Est: April 28, 2025</p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 mt-4 lg:mt-0 max-h-10">
             {/* <button className="bg-[#262931] text-white px-6 py-3 rounded-xl border border-white/5 hover:bg-[#2d3039] transition-all duration-300">
               <i className="fa-solid fa-share-nodes mr-2"></i>
               Share
@@ -90,8 +91,8 @@ export default function LeaguePage(params: Route.ComponentProps) {
         </div>
       </section>
 
-      <div className="grid grid-cols-2 gap-8">
-        <section id="league-stats" className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <section id="league-stats" className="bg-[#1A1D23] rounded-2xl p-6 border border-white/5">
           <h3 className="text-xl text-white font-bold mb-6">League Statistics</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-[#262931] p-4 rounded-xl border border-white/5">
@@ -113,7 +114,7 @@ export default function LeaguePage(params: Route.ComponentProps) {
           </div>
         </section>
 
-        <section id="achievement" className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5">
+        <section id="achievement" className="bg-[#1A1D23] rounded-2xl p-6 border border-white/5">
           <h3 className="text-xl text-white font-bold mb-6">Latest Achievement</h3>
           <div className="bg-[#262931] p-6 rounded-xl border border-white/5 flex items-center gap-6">
             <div className="bg-yellow-500/20 p-4 rounded-xl">
@@ -128,8 +129,8 @@ export default function LeaguePage(params: Route.ComponentProps) {
         </section>
       </div>
 
-      <div className="grid grid-cols-2 gap-8">
-        <section id="top-members" className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <section id="top-members" className="bg-[#1A1D23] rounded-2xl p-6 border border-white/5">
           <h3 className="text-xl text-white font-bold mb-6">Top Members</h3>
           <div className="space-y-4">
             <div className="bg-[#262931] p-4 rounded-xl border border-white/5 flex items-center justify-between">
@@ -171,12 +172,12 @@ export default function LeaguePage(params: Route.ComponentProps) {
           </div>
         </section>
 
-        <section id="popular-picks" className="bg-[#1A1D23] rounded-2xl p-8 border border-white/5">
+        <section id="popular-picks" className="bg-[#1A1D23] rounded-2xl p-6 border border-white/5">
           <h3 className="text-xl text-white font-bold mb-6">Most Popular Picks</h3>
           <div className="space-y-6">
             <div>
               <p className="text-neutral-400 mb-2">Top Drivers</p>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <div className="bg-[#262931] p-3 rounded-xl border border-white/5 flex-1 text-center">
                   <p className="text-white font-bold">Verstappen</p>
                   <p className="text-neutral-400 text-sm">65%</p>
@@ -193,7 +194,7 @@ export default function LeaguePage(params: Route.ComponentProps) {
             </div>
             <div>
               <p className="text-neutral-400 mb-2">Top Constructors</p>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <div className="bg-[#262931] p-3 rounded-xl border border-white/5 flex-1 text-center">
                   <p className="text-white font-bold">Red Bull</p>
                   <p className="text-neutral-400 text-sm">70%</p>
